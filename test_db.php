@@ -1,4 +1,6 @@
 <?php
-    require_once("db.php");
-    echo("Database connected succesfuly");
+    require_once("models/Database.php");
+    $db = new Database();
+    $conn = $db->connect();
+    echo "Database connected successfully";
 ?>
