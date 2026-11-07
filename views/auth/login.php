@@ -60,6 +60,14 @@
                     }
                 ?>
 
+                <!-- Display success message if login is successful -->
+                <?php
+                    if (isset($_SESSION['success'])) {
+                        echo '<div class="alert alert-success py-1 small" role="alert">' . $_SESSION['success'] . '</div>';    
+                        unset($_SESSION['success']);              
+                    }
+                ?>
+
                 <div class="mb-2 form-check">
                     <input type="checkbox" class="form-check-input" id="rememberMe">
                     <label class="form-check-label text-muted small fw-bold" for="rememberMe">Remember me on this device</label>
