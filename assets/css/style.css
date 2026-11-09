@@ -1,0 +1,137 @@
+/* Bootstrap Overrites */
+.form-control,.form-select{
+    border-color: #bbc9c4;
+        border-radius: 0.5rem;
+        padding-top: 0.5rem; 
+        padding-bottom: 0.5rem;
+        box-shadow: none; 
+}
+.form-label {
+    font-weight: bold;
+    color: var(--bs-secondary);
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+.bi{font-size: 1.1rem;}
+
+
+.btn-light,.btn-light:hover{
+        border-color: #AAA;
+}
+
+.table-th{
+    padding-top: 1rem !important;;
+    padding-bottom: 1rem !important;;
+    color: #3c4146 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.5px !important;
+}
+
+
+/* CSS Styles*/
+body{
+    background-color: #eaf6f1; 
+    background-color: #f0f7f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    min-height: 100vh; 
+    overflow-x: hidden;
+}
+
+.sidebar-div{
+    color: #6c757d;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    font-size: 0.75rem; 
+    letter-spacing: 1px;
+}
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #212529;
+    text-decoration: none;
+    padding: 0.5rem 1rem; 
+    border-radius: 0.375rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+
+}
+
+.sidebar-active {
+    color: #198754;
+    background-color: rgba(25, 135, 84, 0.1);
+    font-weight: 700;
+    border-left: 3px solid #198754;
+}
+
+.priority-badge{
+    padding: 0.5rem 1rem;
+}
+
+.badge-danger{
+    background-color: #dc3545;                            
+    border: 1px solid #dc3545;
+    color: #fffe;                           
+}
+.badge-primary{
+    background-color: #0a74ca;                            
+    border: 1px solid #0a74ca;
+    color: #fffe;                           
+}
+.badge-info{
+    background-color: #6f42c1;                                
+    border: 1px solid #6f42c1;
+    color: #fffe;                               
+}
+.badge-warning{
+    background-color: #ffc107  ;                            
+    border: 1px solid #ffc107  ;
+    color: #212529;                           
+}
+.badge-secondary{
+    background-color: #6c757d;                            
+    border: 1px solid #6c757d;
+    color: #fffe;                           
+}
+.badge-gray{
+    background-color: #6c757d;                            
+    border: 1px solid #6c757d;
+    color: #fffe;                           
+}
+.badge-success{
+    background-color: #198754;                            
+    border: 1px solid #198754;
+    color: #fffe;                           
+}
+
+.card-panel{
+  border: 1px solid #dee2e6;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  border-radius: 1rem;
+  margin: 0 auto 1.5rem auto; 
+  padding: 3rem;
+}
+
+.card-panel-title{
+  font-weight: bolder;
+  margin-bottom: 0.5rem;
+  color: #212529;
+  font-size: 1.75rem;
+}
+
+.card-panel-subtitle{
+  color: #6c757d;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.bottom-btn {
+  border-radius: 50rem;
+  font-weight: 700;
+  padding: 0.5rem 3rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}

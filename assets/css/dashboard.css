@@ -1,0 +1,56 @@
+.btn-quick-action {
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    background-color: #197987;
+    border: 2px solid #0f6355;
+    color: #ffffff !important;          
+}
+
+/* Hover effect: darken slightly and lift */
+.btn-quick-action:hover {
+    filter: brightness(1); 
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    background-color: #0f5763;
+    color: #ffffff !important;
+}
+
+.btn-quick-action i {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.btn-quick-action span {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+/* Custom Table text sizing */
+.table th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.recent-tickets-table thead tr td{
+    padding: 1rem 1.5rem;
+    border-bottom: 0;
+    color: #6c757d;  
+}
+
+.recent-tickets-table tbody tr  {
+    padding: 0.5rem 1.5rem;
+}
+
+.status-column, .priority-column{
+    /* text-align: center; */
+}

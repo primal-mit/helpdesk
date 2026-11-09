@@ -31,7 +31,7 @@ if (isset($_POST['login_submit'])) {
         $_SESSION['user_id'] = $loggedInUser['id'];
         $_SESSION['name'] = $loggedInUser['first_name'] . ' ' . $loggedInUser['last_name'];
         $_SESSION['username'] = $loggedInUser['username'];
-        $_SESSION['user_role'] = $loggedInUser['role'];
+        $_SESSION['role'] = $loggedInUser['role'];
 
         switch($loggedInUser['role']){
             case "Administrator": header("Location: ../views/dashboard/dashboard-admin.php"); break;
@@ -148,7 +148,7 @@ if (isset($_POST['reset_password_submit'])) {
         $_SESSION['error'] = "Failed to send email. Please try again later.";
         header("Location: ../views/auth/forgot-password.php");
         exit();
-    }  
+    }    
 
 }
 
