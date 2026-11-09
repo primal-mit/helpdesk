@@ -44,7 +44,7 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <label class="form-label small fw-bold text-muted mb-0">Password</label>
-                        <a href="#" class="text-success text-decoration-none small fw-bold">Forgot password?</a>
+                        <a href="../../views/auth/forgot-password.php" class="text-success text-decoration-none small fw-bold">Forgot password?</a>
                     </div>
                     <div class="input-group">
                         <span class="input-group-text bg-white text-muted"><i class="bi bi-shield-lock"></i></span>

@@ -112,7 +112,60 @@ if (isset($_POST['signup_submit'])) {
         header("Location: ../views/auth/signup.php");
         exit();
     }
+}
+
+
+
+if (isset($_POST['reset_password_submit'])) {
+    
+    $email = trim($_POST['email']);
+
+    //Check if email is empty    
+    if (empty($email)){
+        $_SESSION['error'] = "Email address is required.";
+        header("Location: ../views/auth/forgot-password.php");
+        exit();
+    }
+
+    //Check if email is available in the database
+    $user = new User();
+    $emailxists = $user->checkEmailExists($email);
+    if(!$emailxists){
+        $_SESSION['error'] = "Email address not found.";
+        header("Location: ../views/auth/forgot-password.php");
+        exit();
+    }
+    //Generate a new password
+    $newPassword = generatePassword(10);
+    include_once 'email_controller.php';
+    sendResetEmail($email, $newPassword);
+    if(sendResetEmail($email, $newPassword)) {
+        $user->updatePassword($email, $newPassword);
+        $_SESSION['success'] = "A new password has been sent to your email address.";
+        header("Location: ../views/auth/forgot-password.php");
+        exit();
+    }else{        
+        $_SESSION['error'] = "Failed to send email. Please try again later.";
+        header("Location: ../views/auth/forgot-password.php");
+        exit();
+    }  
 
 }
+
+
+
+
+function generatePassword($length = 10) {
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$!&*';
+    $password = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $characters[random_int(0, strlen($characters) - 1)];
+    }
+
+    return $password;
+}
+
+
 
 ?>

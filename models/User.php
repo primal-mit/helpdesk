@@ -81,7 +81,33 @@ class User {
         }
     }
 
+    public function checkEmailExists($email) {
+        $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        }else {
+            return false;
+        }
+    }   
     
+    function updatePassword($email, $newPassword) {
+        $hashed_password = password_hash($newPassword, PASSWORD_DEFAULT);
+        $query = "UPDATE users SET password = :password WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':password', $hashed_password);
+        $stmt->bindParam(':email', $email);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the password. Please try again.";
+            return false;
+        }
+    }
 
 }
 ?>
