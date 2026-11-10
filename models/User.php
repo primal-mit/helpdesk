@@ -1,7 +1,7 @@
 <?php
 class User {    
 
-     private $conn;
+    private $conn;
 
     public function __construct() {     
         $database = new Database();
@@ -14,8 +14,16 @@ class User {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
         return $row;
+    }
+
+    //Get User by ID
+    public function getUserById($id) {
+        $query = "SELECT * FROM users WHERE id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     //Create User
@@ -52,6 +60,53 @@ class User {
             return true;
         } else {
             $_SESSION['error'] = "An error occurred. Please try again.";
+            return false;
+        }
+    }
+
+    public function update($id, $first_name, $last_name, $username, $role, $status, $phone_number, $email) {
+        // Check if username already exists for another user
+        $query = "SELECT * FROM users WHERE username = :username AND id != :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $_SESSION['error'] = "Username already exists. Please choose a different username.";
+            return false;
+        }
+
+        // Update user details in the database
+        $query = "UPDATE users SET first_name = :first_name, last_name = :last_name, username = :username, role = :role, status = :status, phone_number = :phone_number, email = :email WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':phone_number', $phone_number);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the user. Please try again.";
+            return false;
+        }
+    }
+
+    public function delete($id) {
+        $query = "DELETE FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";
             return false;
         }
     }

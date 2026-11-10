@@ -81,4 +81,98 @@ if (isset($_POST['create_user_submit'])) {
 
 
 
+
+if (isset($_POST['update_user_submit'])) {
+    $user_id = $_POST['user_id'];
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $username = trim($_POST['username']);
+    $role = $_POST['role'];
+    $status = $_POST['status'];         
+    $phone_number = trim($_POST['phone_number']);
+    $email = trim($_POST['email']);
+
+    //Serverside validation
+    if (empty($first_name)){
+        $_SESSION['error'] = "First name is required.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+
+    if (empty($last_name)){
+        $_SESSION['error'] = "Last name is required.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+
+    if (empty($username)){
+        $_SESSION['error'] = "Username is required.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+
+    if (strlen($username) < 4){
+        $_SESSION['error'] = "Username must contain at least 4 characters.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+    
+    if (empty($role)){
+        $_SESSION['error'] = "Role is required.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+
+    if (empty($email)){
+        $_SESSION['error'] = "Email address is required.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+    
+    if (empty($phone_number)){
+        $_SESSION['error'] = "Phone number is required.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error'] = "Invalid email format. Please enter a valid email address.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+
+    // Code goes here to update the user in the database
+    $user = new User();
+    $result = $user->update($user_id, $first_name, $last_name, $username, $role, $status, $phone_number, $email);
+
+    if ($result) {
+        $_SESSION['success'] = "User updated successfully.";
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    } else {
+        header("Location: ../views/user/edit-user.php?id=$user_id");
+        exit();
+    }
+}
+
+
+if(isset($_POST['delete_user_submit'])) {
+    $user_id = $_POST['user_id'];
+
+    // Code goes here to delete the user from the database
+    $user = new User();
+    $result = $user->delete($user_id);
+
+    if ($result) {
+        $_SESSION['success'] = "User deleted successfully.";
+        header("Location: ../views/user/all-users.php");
+        exit();
+    } else {
+        $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";
+        header("Location: ../views/user/manage-users.php");
+        exit();
+    }
+}
+
+
 ?>
