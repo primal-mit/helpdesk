@@ -6,7 +6,17 @@ class User {
     public function __construct() {     
         $database = new Database();
         $this->conn = $database->connect();        
-    }     
+    }    
+    
+    public function getUsers() {
+        $query = "SELECT * FROM users";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $row;
+    }
 
     //Login
     public function login($username, $password) {

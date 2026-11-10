@@ -46,7 +46,7 @@
                 
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center gap-2 text-decoration-none" data-bs-toggle="dropdown">
-                        <img src="https://ui-avatars.com/api/?name=Primal+Perera&background=0fa968&color=fff&rounded=true" alt="User" class="rounded-circle border" width="35" height="35">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo ($_SESSION['name']); ?>&background=0fa968&color=fff&rounded=true" alt="User" class="rounded-circle border" width="35" height="35">
                         <div class="d-none d-md-flex flex-column text-start" style="line-height: 1.2;">
                             <span class="fw-bold text-dark" style="font-size: 0.9rem;">
                                 <?php echo $_SESSION['name']; ?>
