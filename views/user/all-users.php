@@ -1,7 +1,16 @@
-<?php session_start(); ?>
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../views/auth/login.php");
+    exit();
+}
+if ($_SESSION['role'] !== 'Administrator') {
+    echo "Access Denied. You do not have permission to access this page.";
+    exit();
+}
+?>
+
 <?php include_once('../partials/header.php'); ?>
-
-
 
 <?php
     require_once '../../models/Database.php';
