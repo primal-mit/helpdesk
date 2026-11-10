@@ -61,7 +61,7 @@
                     <ul class="dropdown-menu dropdown-menu-end mt-2 shadow-sm border-0 rounded-3">
                         <li><a class="dropdown-item fw-medium py-2" href=""><i class="bi bi-person me-2 text-muted"></i> My Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger fw-medium py-2" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item text-danger fw-medium py-2" href="../../controllers/auth_controller.php?logout=true"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>

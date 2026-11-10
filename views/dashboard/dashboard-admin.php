@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="../../assets/css/dashboard.css">
     <!-- MAIN CONTENT: ADMIN DASHBOARD -->
     <main class="p-4 p-md-4 flex-grow-1">
-
    
     <!-- Quick Actions Grid -->
     <div class="mb-5">
@@ -67,17 +66,15 @@
             </a>
             
             <!-- Logout -->
-            <a href="../../views/auth/logout.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
+            <a href="../../controllers/auth_controller.php?logout=true" class="col-12 col-sm-6 col-md-4 col-xl-3">
                 <button class="btn btn-quick-action shadow-md">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Logout</span>
                 </button>
             </a>
-
         </div>
     </div>
         
-
 
     <!-- Recent Ticket Requests Table Section -->
     <div class="w-100">

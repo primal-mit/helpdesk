@@ -29,6 +29,8 @@ if (isset($_POST['login_submit'])) {
     if ($loggedInUser) {
         // Securely store user data in session
         $_SESSION['user_id'] = $loggedInUser['id'];
+        $_SESSION['first_name'] = $loggedInUser['first_name'];
+        $_SESSION['last_name'] = $loggedInUser['first_name'];
         $_SESSION['name'] = $loggedInUser['first_name'] . ' ' . $loggedInUser['last_name'];
         $_SESSION['username'] = $loggedInUser['username'];
         $_SESSION['role'] = $loggedInUser['role'];
@@ -152,9 +154,6 @@ if (isset($_POST['reset_password_submit'])) {
 
 }
 
-
-
-
 function generatePassword($length = 10) {
     $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$!&*';
     $password = '';
@@ -166,6 +165,15 @@ function generatePassword($length = 10) {
     return $password;
 }
 
-
-
+// Handle Logout
+if (isset($_GET['logout']) && $_GET['logout'] == 'true') {
+    // Remove all session variables
+    session_unset();
+    
+    // Destroy the session completely
+    session_destroy();
+    
+    // Redirect back to the login screen
+    header("Location: ../views/auth/login.php");
+    exit();}
 ?>

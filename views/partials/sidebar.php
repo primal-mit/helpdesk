@@ -29,6 +29,6 @@
         <div class="tsidebar-div">Settings</div>
         <a href="../user/my-profile.php" id="sb_profile" class="sidebar-link"><i class="bi bi-person-lines-fill text-muted fs-5"></i> My Profile</a>
         <a href="../user/change-password.php" id="sb_change_password" class="sidebar-link"><i class="bi bi-shield-lock text-muted fs-5"></i> Change Password</a>        
-        <a href="../auth/logout.php" id="sb_logout" class="sidebar-link"><i class="bi bi-box-arrow-left text-muted fs-5"></i> Logout</a>
+        <a href="../../controllers/auth_controller.php?logout=true" id="sb_logout" class="sidebar-link"><i class="bi bi-box-arrow-left text-muted fs-5"></i> Logout</a>
     </div>
 </aside>
