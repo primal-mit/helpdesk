@@ -1,4 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../views/auth/login.php");
+    exit();
+}
+if ($_SESSION['role'] !== 'Administrator') {
+    echo "Access Denied. You do not have permission to access this page.";
+    exit();
+}
+?>
+
 <?php include_once('../partials/header.php'); ?>
+
 <link rel="stylesheet" href="../../assets/css/dashboard.css">
     <!-- MAIN CONTENT: ADMIN DASHBOARD -->
     <main class="p-4 p-md-4 flex-grow-1">

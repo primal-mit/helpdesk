@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<?php session_start(); ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -56,7 +55,7 @@
                                 <?php echo $_SESSION['role']; ?>
                             </span>
                         </div>
-                        <i class="bi bi-chevron-down text-muted ms-1" style="font-size: 0.8rem;"></i>
+                        <i class="bi bi-chevron-down text-muted ms-1" style="font-size: 0.8re\m;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end mt-2 shadow-sm border-0 rounded-3">
                         <li><a class="dropdown-item fw-medium py-2" href=""><i class="bi bi-person me-2 text-muted"></i> My Profile</a></li>
