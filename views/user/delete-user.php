@@ -61,10 +61,7 @@ if (!$user) {
                     </button>
                     <button type="submit" class="btn btn-danger bottom-btn me-3" name="delete_user_submit">
                         <i class="bi bi-trash"></i> Delete User
-                    </button>
-                    <button type="reset" class="btn btn-light bottom-btn">
-                        <i class="bi bi-arrow-clockwise"></i> Reset
-                    </button>                            
+                    </button>                          
                 </div>
                         
             </form>        

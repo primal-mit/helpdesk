@@ -121,10 +121,8 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                     </tbody>
                 </table>
-            </div>
-            
+            </div>            
         </div>
-
     </main>
     <!-- END MAIN CONTENT -->
 
