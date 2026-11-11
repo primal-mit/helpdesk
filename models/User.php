@@ -212,5 +212,41 @@ class User {
         }
     }
 
+    function changePassword($user_id, $current_password, $new_password) {
+        // Fetch the current password hash from the database
+        $query = "SELECT password FROM users WHERE id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $user_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            $_SESSION['error'] = "User not found.";
+            return false;
+        }
+
+        // Verify the current password
+        if (!password_verify($current_password, $row['password'])) {
+            $_SESSION['error'] = "Current password is incorrect.";
+            return false;
+        }
+
+        // Hash the new password
+        $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        // Update the password in the database
+        $update_query = "UPDATE users SET password = :password WHERE id = :id";
+        $update_stmt = $this->conn->prepare($update_query);
+        $update_stmt->bindParam(':password', $hashed_new_password);
+        $update_stmt->bindParam(':id', $user_id);
+
+        if ($update_stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while changing the password. Please try again.";
+            return false;
+        }
+    }
+
 }
 ?>

@@ -174,5 +174,31 @@ if(isset($_POST['delete_user_submit'])) {
     }
 }
 
+if(isset($_POST['change_password_submit'])) {
+    $user_id = $_SESSION['user_id'];
+    $current_password = $_POST['current_password'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    // Validate new password and confirm password match
+    if ($new_password !== $confirm_password) {
+        $_SESSION['error'] = "New password and confirm password do not match.";
+        header("Location: ../views/user/change-password.php");
+        exit();
+    }
+
+    // Code goes here to change the user's password in the database
+    $user = new User();
+    $result = $user->changePassword($user_id, $current_password, $new_password);
+
+    if ($result) {
+        $_SESSION['success'] = "Password changed successfully.";
+        header("Location: ../views/user/change-password.php");
+        exit();
+    } else {
+        header("Location: ../views/user/change-password.php");
+        exit();
+    }
+}
 
 ?>
