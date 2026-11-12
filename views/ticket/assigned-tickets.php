@@ -4,7 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../../views/auth/login.php");
     exit();
 }
-if ($_SESSION['role'] !== 'Administrator') {
+if ($_SESSION['role'] !== 'Agent') {
     echo "Access Denied. You do not have permission to access this page.";
     exit();
 }
@@ -151,12 +151,12 @@ if ($_SESSION['role'] !== 'Administrator') {
 
 <script>
     // Set Breadcrumb
-    document.getElementById("breadcrumb_title").innerHTML = "View My Assigned Tickets";
+    document.getElementById("breadcrumb_title").innerHTML = "My Assigned Tickets";
     document.getElementById("breadcrumb_item_1").querySelector('a').innerHTML = "Ticket";
-    document.getElementById("breadcrumb_item_2").innerHTML = "View My Assigned Ticket";
+    document.getElementById("breadcrumb_item_2").innerHTML = "My Assigned Ticket";
 
     //Activate Sidebar Link
-    document.getElementById("sb_all_tickets").classList.add("sidebar-active");
+    document.getElementById("sb_assigned_tickets").classList.add("sidebar-active");
 </script>
 
 <?php include_once('../partials/footer.php'); ?>

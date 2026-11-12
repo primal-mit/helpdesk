@@ -4,10 +4,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../../views/auth/login.php");
     exit();
 }
-if ($_SESSION['role'] !== 'Administrator') {
-    echo "Access Denied. You do not have permission to access this page.";
-    exit();
-}
 ?>
 
 <?php
@@ -156,7 +152,7 @@ if ($_SESSION['role'] !== 'Administrator') {
     document.getElementById("breadcrumb_item_2").innerHTML = "View My Ticket";
 
     //Activate Sidebar Link
-    document.getElementById("sb_all_tickets").classList.add("sidebar-active");
+    document.getElementById("sb_my_tickets").classList.add("sidebar-active");
 </script>
 
 <?php include_once('../partials/footer.php'); ?>

@@ -3,6 +3,7 @@ session_start();
 require_once '../models/Database.php';
 require_once '../models/User.php';
 
+//Login
 if (isset($_POST['login_submit'])) {
     
     $username = trim($_POST['username']);
@@ -37,7 +38,8 @@ if (isset($_POST['login_submit'])) {
 
         switch($loggedInUser['role']){
             case "Administrator": header("Location: ../views/dashboard/dashboard-admin.php"); break;
-            case "Agent": header("Location: ../views/dashboard/dashboard-agent.php"); break;
+            case "Agent": header("Location: ../views/ticket/assigned-tickets.php"); break;
+            case "Requester": header("Location: ../views/ticket/my-tickets.php"); break;
         }      
         
         exit();

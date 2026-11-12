@@ -43,7 +43,7 @@ if ($_SESSION['role'] !== 'Administrator') {
             </a>
 
             <!-- Create New Ticket -->
-            <a href="../../views/tickets/my-tickets.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
+            <a href="../../views/ticket/my-tickets.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
                 <button class="btn btn-quick-action shadow-md">
                     <i class="bi bi-list"></i>
                     <span>My Tickets</span>

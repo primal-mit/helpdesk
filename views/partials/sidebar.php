@@ -14,17 +14,31 @@
     </a>
     
     <div class="p-4 py-1 overflow-auto flex-grow-1">
-        <div class="sidebar-div" style="font-size: 0.75rem; letter-spacing: 1px;">Main</div>
-        <a href="../dashboard/dashboard-admin.php" id="sb_dashboard" class="sidebar-link"><i class="bi bi-speedometer2 text-muted fs-5"></i> Dashboard</a>
+
+        <?php if ($_SESSION['role'] == 'Administrator'):?>
+            <!-- Administrator Only -->
+            <div class="sidebar-div" style="font-size: 0.75rem; letter-spacing: 1px;">Main</div>
+            <a href="../dashboard/dashboard-admin.php" id="sb_dashboard" class="sidebar-link"><i class="bi bi-speedometer2 text-muted fs-5"></i> Dashboard</a>
+        <?php endif ?>
         
         <div class="tsidebar-div">Tickets</div>
-        <a href="../ticket/all-tickets.php" id="sb_all_tickets" class="sidebar-link"><i class="bi bi-inboxes text-muted fs-5"></i> View All Tickets</a>
+        <?php if ($_SESSION['role'] == 'Administrator'):?>
+            <!-- Administrators Only -->
+            <a href="../ticket/all-tickets.php" id="sb_all_tickets" class="sidebar-link"><i class="bi bi-inboxes text-muted fs-5"></i> View All Tickets</a>
+        <?php endif ?>   
         <a href="../ticket/create-ticket.php" id="sb_create_ticket" class="sidebar-link"><i class="bi bi-plus-circle text-muted fs-5"></i> Create New Ticket</a>        
         <a href="../ticket/my-tickets.php" id="sb_my_tickets" class="sidebar-link"><i class="bi bi-list text-muted fs-5"></i> My Tickets</a>   
+
+        <?php if ($_SESSION['role'] == 'Agent'):?>
+            <!-- Agents Only -->
+            <a href="../ticket/assigned-tickets.php" id="sb_assigned_tickets" class="sidebar-link"><i class="bi bi-list text-muted fs-5"></i> My Assigned Tickets</a>   
+        <?php endif ?>  
         
-        <div class="tsidebar-div">Administration</div>
-        <a href="../user/all-users.php" id="sb_manage_users" class="sidebar-link"><i class="bi bi-people fs-5"></i> Manage Users</a>
-        <a href="../category/manage-categories.php" id="sb_manage_categories" class="sidebar-link"><i class="bi bi-tags text-muted fs-5"></i> Manage Categories</a>
+        <?php if ($_SESSION['role'] == 'Administrator'):?>
+            <div class="tsidebar-div">Administration</div>
+            <a href="../user/all-users.php" id="sb_manage_users" class="sidebar-link"><i class="bi bi-people fs-5"></i> Manage Users</a>
+            <a href="../category/manage-categories.php" id="sb_manage_categories" class="sidebar-link"><i class="bi bi-tags text-muted fs-5"></i> Manage Categories</a>
+        <?php endif ?>  
 
         <div class="tsidebar-div">Settings</div>
         <a href="../user/my-profile.php" id="sb_profile" class="sidebar-link"><i class="bi bi-person-lines-fill text-muted fs-5"></i> My Profile</a>
