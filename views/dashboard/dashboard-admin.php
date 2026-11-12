@@ -8,6 +8,11 @@ if ($_SESSION['role'] !== 'Administrator') {
     echo "Access Denied. You do not have permission to access this page.";
     exit();
 }
+
+    require_once '../../models/Database.php';
+    require_once '../../models/Ticket.php'; 
+    $ticket = new Ticket();
+    $tickets = $ticket->getRecentTickets();       
 ?>
 
 <?php include_once('../partials/header.php'); ?>
@@ -95,65 +100,67 @@ if ($_SESSION['role'] !== 'Administrator') {
         <div class="card border-0 shadow-sm rounded-3">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0 align-middle recent-tickets-table">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Subject</th>
-                                <th>Requester</th>
-                                <th>Status</th>
-                                <th>Priority</th>
-                                <th>Date Added</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Sample Row 1: Open -->
-                            <tr>
-                                <td class="fw-semibold">#TCK-1045</td>
-                                <td class="text-dark">Printer requires maintenance</td>
-                                <td>Kasun Silva</td>
-                                <td class="status-column"><span class="badge bg-light text-dark border px-3 py-2 rounded-pill">Open</span></td>
-                                <td class="priority-column"><span class="badge bg-secondary px-3 py-2 rounded-pill">Low</span></td>
-                                <td class="text-muted">Oct 20, 2026</td>
-                            </tr>
-                            <!-- Sample Row 2: Assigned -->
-                            <tr>
-                                <td class="fw-semibold">#TCK-1044</td>
-                                <td class="text-dark">Need Adobe Creative Cloud license</td>
-                                <td>Ashan Fernando</td>
-                                <td class="status-column"><span class="badge text-white px-3 py-2 rounded-pill" style="background-color: #6f42c1;">Assigned</span></td>
-                                <td class="priority-column"><span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Medium</span></td>
-                                <td class="text-muted">Oct 19, 2026</td>
-                            </tr>
-                            <!-- Sample Row 3: In Progress -->
-                            <tr>
-                                <td class="fw-semibold">#TCK-1043</td>
-                                <td class="text-dark">Database migration error on staging</td>
-                                <td>Nipun Perera</td>
-                                <td class="status-column"><span class="badge bg-primary px-3 py-2 rounded-pill">In Progress</span></td>
-                                <td class="priority-column"><span class="badge bg-danger px-3 py-2 rounded-pill">High</span></td>
-                                <td class="text-muted">Oct 19, 2026</td>
-                            </tr>
-                            <!-- Sample Row 4: Resolved -->
-                            <tr>
-                                <td class="fw-semibold">#TCK-1042</td>
-                                <td class="text-dark">Cannot connect to office VPN</td>
-                                <td>Supun Dilantha</td>
-                                <td class="status-column"><span class="badge bg-success px-3 py-2 rounded-pill">Resolved</span></td>
-                                <td class="priority-column"><span class="badge bg-danger px-3 py-2 rounded-pill">High</span></td>
-                                <td class="text-muted">Oct 18, 2026</td>
-                            </tr>
-                            <!-- Sample Row 5: Closed -->
-                            <tr>
-                                <td class="fw-semibold">#TCK-1041</td>
-                                <td class="text-dark">Requesting new dual monitors</td>
-                                <td>Kapila Gunawardana</td>
-                                <td class="status-column"><span class="badge bg-secondary px-3 py-2 rounded-pill">Closed</span></td>
-                                <td class="priority-column"><span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Medium</span></td>
-                                <td class="text-muted">Oct 15, 2026</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <table class="table table-hover align-middle mb-0">
+                    <thead class="border-bottom">
+                        <tr>
+                            <th class="table-th ps-4 ">Ticket ID</th>
+                            <th class="table-th">Subject & Requester</th>
+                            <th class="table-th">Category</th>
+                            <th class="table-th">Status</th>
+                            <th class="table-th">Assigned To</th>
+                            <th class="table-th">Created</th>
+                            <th class="table-th">Priority</th>
+                            <th class="text-center pe-4 table-th">Action</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody class="border-top-0">
+
+                        <?php foreach($tickets as $ticket): ?>
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark"><?= $ticket['id'] ?></td>
+                            <td>
+                                <div class="fw-semibold mb-1"><?= $ticket['subject'] ?></div>
+                                <div class="requester-name"><?= $ticket['requester_first_name'] . ' ' . $ticket['requester_last_name'] ?></div>
+                            </td>
+                            <td class="text-dark fw-medium"><?= $ticket['category_name'] ?></td>                            
+                            <?php
+                                $status_badge = "";
+                                switch (strtolower($ticket['status'])) {
+                                    case 'open': $status_badge = 'warning'; break;
+                                    case 'assigned': $status_badge = 'info'; break;
+                                    case 'in progress': $status_badge = 'primary'; break;
+                                    case 'resolved': $status_badge = 'success'; break;
+                                    case 'closed': $status_badge = 'secondary'; break;
+                                    default: $status_badge = 'secondary'; break;
+                                }
+                            ?>
+                            <td><span class="badge priority-badge badge-<?= $status_badge; ?>"><?= ucfirst($ticket['status']) ?></span></td>
+                            <td>
+                                <?php if ($ticket['agent_first_name']) : ?>
+                                    <div class="d-flex align-items-center fw-medium text-dark"><?= $ticket['agent_first_name'] ?> <?= $ticket['agent_last_name'] ?></div>
+                                <?php else : ?>
+                                    <span class="text-muted fst-italic fw-medium">Unassigned</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="text-muted fw-medium" style="font-size: 0.9rem;"><?= date('M d, H:i', strtotime($ticket['created_at'])) ?></td>
+                            <?php                            
+                                switch (strtolower($ticket['priority'])) {
+                                    case 'low': $priority_badge = 'secondary'; break;
+                                    case 'medium': $priority_badge = 'warning'; break;
+                                    case 'high': $priority_badge = 'danger'; break;
+                                    default: $priority_badge = 'secondary'; break;
+                                }
+                            ?>
+                            <td><span class="badge priority-badge badge-<?php echo $priority_badge; ?>"><?= ucfirst($ticket['priority']) ?></span></td>  
+                            <td class="text-center pe-4">
+                                <a href="view-ticket.php?id=<?= $ticket['id'] ?>"><button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">View</button></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>   
+                    </tbody>
+                </table>
                 </div>
             </div>
             <!-- Table Footer/Pagination -->

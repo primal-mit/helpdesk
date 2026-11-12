@@ -135,3 +135,62 @@ body{
   padding: 0.5rem 3rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
+
+
+
+
+
+/* badges */
+.priority-badge{
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.25);
+    padding: 0.5rem 1rem;
+}
+
+
+.badge-danger{
+    background-color: #ffb3bc24;                            
+    color: #dc3545;
+    border: 1px solid #f1b7bd;
+}
+.badge-primary{
+    background-color: #ccf4f947;                            
+    color: #46a0e3;
+    border: 1px solid #2a7fff9e;
+}
+.badge-info{
+        background-color: #e6bfff30;                                
+        color: #7e3ee1e0;
+        border: 1px solid #9380cfa6;
+}
+.badge-warning{
+    background-color: #f7ce5312;                            
+    color: #9b7a16;
+    border: 1px solid #c99f209c;
+}
+.badge-secondary{
+    background-color: #f0f1f28a;                            
+    color: #6c757d;
+    border: 1px solid #a3a1a1;
+}
+
+.badge-gray{
+    background-color: #6c757d;                            
+    color: #ddd;
+    border: 1px solid #6c757d;
+}
+
+.badge-success{
+    background-color: #caedd545;                            
+    color: #0f9d57;
+    border: 1px solid #5bb181;
+}
+
+.requester-name{
+    display: flex;
+    align-items: center;
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
