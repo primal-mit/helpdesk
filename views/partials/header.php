@@ -12,7 +12,8 @@
 
 
 <!-- Sidebar -->
-<?php include_once('../partials/sidebar.php'); ?>    
+<?php include_once('../partials/sidebar.php'); ?>  
+<?php include_once('../partials/functions.php'); ?>  
 
 
 <!-- Right Content Wrapper -->

@@ -13,8 +13,12 @@ if ($_SESSION['role'] !== 'Administrator') {
 <?php
     require_once '../../models/Database.php';
     require_once '../../models/Ticket.php'; 
+    require_once '../../models/Category.php';
     $ticket = new Ticket();
-    $tickets = $ticket->getTickets();       
+    $tickets = $ticket->getTickets();     
+        
+    $category = new Category();
+    $categories = $category->getCategories();
 ?>
 
 
@@ -30,11 +34,18 @@ if ($_SESSION['role'] !== 'Administrator') {
                 <p class="text-muted mb-0 fw-medium">Manage and track all support requests across the organization.</p>
             </div>
             <div>
+                <a href="../../views/ticket/create-ticket.php">
                 <button class="btn btn-success fw-bold shadow-sm px-4 rounded-pill">
                     <i class="bi bi-plus-lg me-1"></i> New Ticket
                 </button>
+                </a>
             </div>
         </div>
+
+        
+        <!-- Alerts -->
+        <?php include('../partials/alerts.php'); ?>
+        
 
         <!-- Filters Panel -->
         <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 pb-3">
@@ -66,10 +77,9 @@ if ($_SESSION['role'] !== 'Administrator') {
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Category</label>
                     <select class="form-select bg-light border-0 shadow-none" name="filter_category">
                         <option value="all">All Categories</option>
-                        <option value="hardware">Hardware</option>
-                        <option value="software">Software</option>
-                        <option value="network">Network</option>
-                        <option value="account">Account</option>
+                        <?php foreach($categories as $category): ?>
+                        <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-md-3 text-end">
@@ -101,7 +111,7 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                         <?php foreach($tickets as $ticket): ?>
                         <tr>
-                            <td class="ps-4 fw-bold text-dark"><?= $ticket['id'] ?></td>
+                            <td class="ps-4 fw-bold text-dark"><?= formatTicketNumber($ticket['id']) ?></td>
                             <td>
                                 <div class="fw-semibold mb-1"><?= $ticket['subject'] ?></div>
                                 <div class="requester-name"><?= $ticket['requester_first_name'] . ' ' . $ticket['requester_last_name'] ?></div>
@@ -118,7 +128,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                                     default: $status_badge = 'secondary'; break;
                                 }
                             ?>
-                            <td><span class="badge priority-badge badge-<?= $status_badge; ?>"><?= ucfirst($ticket['status']) ?></span></td>
+                            <td><span class="badge status-badge badge-<?= $status_badge; ?> py-1 px-2"><?= ucfirst($ticket['status']) ?></span></td>
                             <td>
                                 <?php if ($ticket['agent_first_name']) : ?>
                                     <div class="d-flex align-items-center fw-medium text-dark"><?= $ticket['agent_first_name'] ?> <?= $ticket['agent_last_name'] ?></div>
@@ -135,7 +145,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                                     default: $priority_badge = 'secondary'; break;
                                 }
                             ?>
-                            <td><span class="badge priority-badge badge-<?php echo $priority_badge; ?>"><?= ucfirst($ticket['priority']) ?></span></td>  
+                            <td><span class="badge priority-badge badge-<?php echo $priority_badge; ?> py-1 px-2"><?= ucfirst($ticket['priority']) ?></span></td>  
                             <td class="text-center pe-4">
                                 <a href="view-ticket.php?id=<?= $ticket['id'] ?>"><button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">View</button></a>
                             </td>
@@ -143,29 +153,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                         <?php endforeach; ?>   
                     </tbody>
                 </table>
-            </div>
-            
-            <!-- Pagination -->
-            <div class="d-flex justify-content-between align-items-center p-3 border-top bg-light bg-opacity-50">
-                <div class="text-muted fw-medium" style="font-size: 0.9rem;">
-                    Showing <strong>1</strong> to <strong>5</strong> of <strong>42</strong> tickets
-                </div>
-                <nav aria-label="Ticket pagination">
-                    <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled">
-                            <a class="page-link text-muted border-0 bg-transparent fw-bold" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link bg-success border-success text-white rounded-3 mx-1 fw-bold" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link text-dark border-0 rounded-3 mx-1 fw-bold" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link text-dark border-0 rounded-3 mx-1 fw-bold" href="#">3</a></li>
-                        <li class="page-item"><span class="page-link border-0 text-muted bg-transparent">...</span></li>
-                        <li class="page-item"><a class="page-link text-dark border-0 rounded-3 mx-1 fw-bold" href="#">9</a></li>
-                        <li class="page-item">
-                            <a class="page-link text-dark border-0 bg-transparent fw-bold" href="#"><i class="bi bi-chevron-right"></i></a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            </div>       
         </div>
 
     </main>

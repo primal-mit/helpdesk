@@ -24,7 +24,7 @@
         <div class="tsidebar-div">Tickets</div>
         <?php if ($_SESSION['role'] == 'Administrator'):?>
             <!-- Administrators Only -->
-            <a href="../ticket/all-tickets.php" id="sb_all_tickets" class="sidebar-link"><i class="bi bi-inboxes text-muted fs-5"></i> View All Tickets</a>
+            <a href="../ticket/view-tickets.php" id="sb_all_tickets" class="sidebar-link"><i class="bi bi-inboxes text-muted fs-5"></i> View All Tickets</a>
         <?php endif ?>   
         <a href="../ticket/create-ticket.php" id="sb_create_ticket" class="sidebar-link"><i class="bi bi-plus-circle text-muted fs-5"></i> Create New Ticket</a>        
         <a href="../ticket/my-tickets.php" id="sb_my_tickets" class="sidebar-link"><i class="bi bi-list text-muted fs-5"></i> My Tickets</a>   

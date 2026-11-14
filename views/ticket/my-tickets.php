@@ -26,11 +26,18 @@ if (!isset($_SESSION['user_id'])) {
                 <p class="text-muted mb-0 fw-medium">View My tickets and view their current status.</p>
             </div>
             <div>
+                <a href="../../views/ticket/create-ticket.php">
                 <button class="btn btn-success fw-bold shadow-sm px-4 rounded-pill">
                     <i class="bi bi-plus-lg me-1"></i> New Ticket
                 </button>
+                </a>
             </div>
         </div>
+
+        
+        <!-- Alerts -->
+        <?php include('../partials/alerts.php'); ?>
+
 
         <!-- Filters Panel -->
         <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 pb-3">

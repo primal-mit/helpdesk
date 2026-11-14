@@ -36,6 +36,10 @@ if ($_SESSION['role'] !== 'Agent') {
             </div>
         </div>
 
+        
+        <!-- Alerts -->
+        <?php include('../partials/alerts.php'); ?>
+
         <!-- Filters Panel -->
         <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 pb-3">
             <form class="row g-3 align-items-end">
