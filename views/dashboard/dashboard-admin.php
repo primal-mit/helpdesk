@@ -155,7 +155,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                             ?>
                             <td><span class="badge priority-badge badge-<?php echo $priority_badge; ?>"><?= ucfirst($ticket['priority']) ?></span></td>  
                             <td class="text-center pe-4">
-                                <a href="view-ticket.php?id=<?= $ticket['id'] ?>"><button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">View</button></a>
+                                <a href="../../views/ticket/view-ticket.php?id=<?= $ticket['id'] ?>"><button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">View</button></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>   

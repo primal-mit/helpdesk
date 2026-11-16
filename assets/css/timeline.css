@@ -1,0 +1,70 @@
+.timeline-container {
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+.timeline-wrapper {
+    position: relative;
+    padding: 20px 0;
+    min-width: 500px; /* Prevents squishing on very small screens */
+}
+
+/* The Connecting Line Behind Nodes */
+.timeline-progress-bg {
+    position: absolute;
+    top: 38px; /* Perfectly centers the 4px line behind the 40px circles */
+    left: 10%; /* Inset to start from the first circle center */
+    width: 80%; /* Spans only between the first and last circle */
+    height: 4px;
+    z-index: 1;
+    background-color: #b4b4b4;
+    border-radius: 2px;
+}
+
+#progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+
+/* Individual Step Nodes */
+.timeline-step {
+    position: relative;
+    z-index: 2; /* Keeps circles above the line */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1; /* Distributes nodes evenly */
+}
+
+/* The Circular Indicator */
+.timeline-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border: 4px solid #fff; /* Creates a clean cut-out effect over the line */
+    transition: all 0.4s ease-in-out;
+    font-size: 1.1rem;
+}
+
+.step-text {
+    transition: color 0.4s ease;
+    margin-top: 8px;
+}
+
+/* Custom Orange for Active State */
+.bg-orange { background-color: #fd9914 !important; }
+.text-orange { color: #fd9914 !important; }
+
+/* Simulation Buttons Styles */
+.simulation-controls button {
+    transition: transform 0.1s ease;
+}
+.simulation-controls button:active {
+    transform: scale(0.95);
+}
+
+.timeline-step .bg-secondary{
+    background-color: #888 !important;
+}

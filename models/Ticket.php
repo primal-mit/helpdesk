@@ -46,6 +46,26 @@ class Ticket {
         return $stmt->fetchAll();
     }
 
+    public function getTicket($ticket_id) {
+        $query = "SELECT 
+            t.*,
+            c.name AS category_name,
+            requester.first_name AS requester_first_name,
+            requester.last_name AS requester_last_name,
+            agent.first_name AS agent_first_name,
+            agent.last_name AS agent_last_name
+          FROM tickets t
+          LEFT JOIN categories c ON t.category_id = c.id
+          LEFT JOIN users requester ON t.requester_id = requester.id
+          LEFT JOIN users agent ON t.agent_id = agent.id
+          WHERE t.id = ".$ticket_id."
+          LIMIT 1";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
 
      public function getRecentTickets() {
         $query = "SELECT 
@@ -105,6 +125,68 @@ class Ticket {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+
+    public function assignAnAgent($id, $agent_id) {
+        $query = "UPDATE tickets SET status='Assigned', agent_id=:agent_id WHERE id=:id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':agent_id', $agent_id);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
+            return false;
+        }
+    }
+
+    public function markAsInProgress($id) {
+        $query = "UPDATE tickets SET status='In Progress' WHERE id=:id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
+            return false;
+        }
+    }
+
+    public function markAsResolived($id) {
+        $query = "UPDATE tickets SET status='Resolved' WHERE id=:id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
+            return false;
+        }
+    }
+
+    public function closeTicket($id) {
+        $query = "UPDATE tickets SET status='Closed' WHERE id=:id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
+            return false;
+        }
     }
 
 

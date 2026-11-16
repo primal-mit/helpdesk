@@ -17,6 +17,16 @@ class User {
         return $row;
     }
 
+
+    public function getAgentUsers() {
+        $query = "SELECT * FROM users WHERE role = 'Agent'";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
     //Get User by ID
     public function getUserById($id) {
         $query = "SELECT * FROM users WHERE id = :id LIMIT 1";

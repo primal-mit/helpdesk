@@ -29,12 +29,15 @@
     font-size: 0.85rem !important;
     letter-spacing: 0.5px !important;
 }
-
+.card{
+    border: 1px solid #0004 !important;
+}
 
 /* CSS Styles*/
 body{
     background-color: #eaf6f1; 
-    background-color: #f0f7f4;
+    /* background-color: #f0f7f4; */
+    background-color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
     min-height: 100vh; 
     overflow-x: hidden;
@@ -57,7 +60,7 @@ body{
     padding: 0.5rem 1rem; 
     border-radius: 0.375rem;
     font-weight: 500;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.5rem;
 
 }
 
