@@ -36,7 +36,7 @@
         
         <?php if ($_SESSION['role'] == 'Administrator'):?>
             <div class="tsidebar-div">Administration</div>
-            <a href="../user/all-users.php" id="sb_manage_users" class="sidebar-link"><i class="bi bi-people fs-5"></i> Manage Users</a>
+            <a href="../user/view-users.php" id="sb_manage_users" class="sidebar-link"><i class="bi bi-people fs-5"></i> Manage Users</a>
             <a href="../category/manage-categories.php" id="sb_manage_categories" class="sidebar-link"><i class="bi bi-tags text-muted fs-5"></i> Manage Categories</a>
         <?php endif ?>  
 

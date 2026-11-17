@@ -16,7 +16,10 @@ if ($_SESSION['role'] !== 'Administrator') {
     require_once '../../models/Database.php';
     require_once '../../models/User.php';
     $user = new User();
-    $users = $user->getUsers();
+    $filter_name =  $_GET['filter_name'] ?? '';
+    $filter_role = $_GET['filter_role'] ?? '';
+    $filter_status = $_GET['filter_status'] ?? '';
+    $users = $user->getUsers($filter_name, $filter_role, $filter_status);
 ?>
 
     <!-- MAIN CONTENT: USER MANAGEMENT PAGE -->
@@ -42,36 +45,36 @@ if ($_SESSION['role'] !== 'Administrator') {
 
         <!-- Filters Panel -->
         <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 pb-3">
-            <form class="row g-3 align-items-end">
+            <form class="row g-3 align-items-end" method="GET" action="../../views/user/view-users.php">
                 <div class="col-md-4">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Search User</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light border-0 text-muted shadow-none"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control bg-light border-0 ps-0 shadow-none" placeholder="Search by name or email...">
+                        <input type="text" class="form-control bg-light border-0 ps-0 shadow-none" placeholder="Search by name..." name="filter_name" value="<?= $filter_name; ?>">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">System Role</label>
-                    <select class="form-select bg-light border-0 shadow-none">
-                        <option value="all">All Roles</option>
-                        <option value="admin">Administrator</option>
-                        <option value="agent">Agent</option>
-                        <option value="requester">Requester</option>
+                    <select class="form-select bg-light border-0 shadow-none" name="filter_role">
+                        <option value="">All Roles</option>
+                        <option value="Administrator" <?= ($filter_role == 'Administrator') ? 'selected' : '' ?>>Administrator</option>
+                        <option value="Agent" <?= ($filter_role == 'Agent') ? 'selected' : '' ?>>Agent</option>
+                        <option value="Requester" <?= ($filter_role == 'Requester') ? 'selected' : '' ?>>Requester</option>
                     </select>
                 </div>
 
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Account Status</label>
-                    <select class="form-select bg-light border-0 shadow-none">
-                        <option value="all">All Statuses</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                    <select class="form-select bg-light border-0 shadow-none" name="filter_status">
+                        <option value="">All Statuses</option>
+                        <option value="Active" <?= ($filter_role == 'Active') ? 'selected' : '' ?>>Active</option>
+                        <option value="Inactive" <?= ($filter_role == 'Inactive') ? 'selected' : '' ?>>Inactive</option>
                     </select>
                 </div>
 
                 <div class="col-md-2 text-end">
-                    <button type="button" class="btn btn-outline-secondary me-1 fw-bold px-3">Clear</button>
-                    <button type="button" class="btn btn-success fw-bold px-3">Filter</button>
+                    <button type="reset" class="btn btn-outline-secondary me-1 fw-bold px-3">Clear</button>
+                    <button type="submit" class="btn btn-success fw-bold px-3">Filter</button>
                 </div>
             </form>
         </div>

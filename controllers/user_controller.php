@@ -219,7 +219,7 @@ if(isset($_POST['delete_user_submit'])) {
 
     if ($result) {
         $_SESSION['success'] = "User deleted successfully.";
-        header("Location: ../views/user/all-users.php");
+        header("Location: ../views/user/view-users.php");
         exit();
     } else {
         $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";

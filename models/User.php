@@ -8,11 +8,34 @@ class User {
         $this->conn = $database->connect();        
     }    
     
-    public function getUsers() {
-        $query = "SELECT * FROM users";
+    public function getUsers($filter_name, $filter_role, $filter_status) {
+  
+        $query = "SELECT * FROM users WHERE 1=1";
+
+        $params = [];
+
+        // Filter by name
+        if (!empty($filter_name)) {
+            $query .= " AND (first_name LIKE :name1 OR last_name LIKE :name2)";
+            $params[':name1'] = "%$filter_name%";
+            $params[':name2'] = "%$filter_name%";
+        }
+
+        // Filter by role
+        if (!empty($filter_role)) {
+            $query .= " AND role = :role";
+            $params[':role'] = $filter_role;
+        }
+
+        // Filter by status
+        if (!empty($filter_status)) {
+            $query .= " AND status = :status";
+            $params[':status'] = $filter_status;
+        }
+       
         
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->execute($params);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $row;
     }
