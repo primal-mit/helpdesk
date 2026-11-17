@@ -23,74 +23,58 @@ if ($_SESSION['role'] !== 'Administrator') {
    
     <!-- Quick Actions Grid -->
     <div class="mb-5">
-        <h4 class="fw-bold mb-4 text-dark text-uppercase fs-5">Quick Actions</h4>
-        <div class="row g-3">
-            
-            <!-- All Tickets Queue -->
-            <a href="../../views/tickets/tickets-all.php" class="col-12 col-sm-6 col-md-4 col-xl-3">                
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-inbox"></i>
-                    <span>All Tickets</span>
-                </button>            
-            </a>
-            
-            <!-- Create New Ticket -->
-            <a href="../../views/tickets/create-ticket.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-plus-circle"></i>
-                    <span>Create New Ticket</span>
-                </button>     
-            </a>
+        <h4 class="fw-bold mb-4 text-dark text-uppercase fs-5">Admin Dashboard</h4>
 
-            <!-- Create New Ticket -->
-            <a href="../../views/ticket/my-tickets.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-list"></i>
-                    <span>My Tickets</span>
-                </button>     
-            </a>
+        <div class="row mb-3">
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card border-gray">
+                    <div class="stat-content">
+                        <span class="stat-label">Total Active</span>
+                        <span class="stat-value">6</span>
+                    </div>
+                    <div class="icon-wrapper icon-gray">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </div>
+                </div>
+            </div>
             
-            <!-- Manage Users -->
-            <a href="../../views/user/all-users.php" class="col-12 col-sm-6 col-md-4 col-xl-3">            
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-people"></i>
-                    <span>Manage Users</span>
-                </button>
-            </a>
-
-               
-            <!-- Manage Categories -->
-            <a href="../../views/category/manage-categories.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-tags"></i>
-                    <span>Manage Categories</span>
-                </button>
-            </a>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card border-orange">
+                    <div class="stat-content">
+                        <span class="stat-label">Open</span>
+                        <span class="stat-value">2</span>
+                    </div>
+                    <div class="icon-wrapper icon-orange">
+                        <i class="bi bi-person-dash"></i>
+                    </div>
+                </div>
+            </div>
             
-            <!-- My Profile -->
-            <a href="../../views/user/my-profile.php" class="col-12 col-sm-6 col-md-4 col-xl-3"> 
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-person-badge"></i>
-                    <span>My Profile</span>
-                </button>
-            </a>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card border-blue">
+                    <div class="stat-content">
+                        <span class="stat-label">In Progress</span>
+                        <span class="stat-value">2</span>
+                    </div>
+                    <div class="icon-wrapper icon-blue">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                </div>
+            </div>
             
-            <!-- Change Password -->
-            <a href="../../views/user/change-password.php" class="col-12 col-sm-6 col-md-4 col-xl-3">
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-shield-lock"></i>
-                    <span>Change Password</span>
-                </button>
-            </a>
-            
-            <!-- Logout -->
-            <a href="../../controllers/auth_controller.php?logout=true" class="col-12 col-sm-6 col-md-4 col-xl-3">
-                <button class="btn btn-quick-action shadow-md">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
-                </button>
-            </a>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card border-green">
+                    <div class="stat-content">
+                        <span class="stat-label">Resolved</span>
+                        <span class="stat-value">2</span>
+                    </div>
+                    <div class="icon-wrapper icon-green">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
         
 
@@ -165,8 +149,8 @@ if ($_SESSION['role'] !== 'Administrator') {
             </div>
             <!-- Table Footer/Pagination -->
             <div class="card-footer bg-white border-top py-3 px-4 d-flex justify-content-between align-items-center">
-                <span class="text-muted small">Showing 1 to 5 of 42 entries</span>
-                <button class="btn btn-sm btn-outline-secondary">View All</button>
+                <span class="text-muted small">Showing 1 to 5 entries</span>
+                <a href="../../views/ticket/view-tickets.php"><button class="btn btn-sm btn-outline-secondary">View All</button></a>
             </div>
         </div>
     </div>

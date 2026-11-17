@@ -113,7 +113,7 @@ body{
 
 .card-panel{
   border: 1px solid #dee2e6;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175);
   border-radius: 1rem;
   margin: 0 auto 1.5rem auto; 
   padding: 3rem;
