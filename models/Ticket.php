@@ -189,6 +189,19 @@ class Ticket {
         }
     }
 
+    public function getStatusCount($status){
+        $query = "SELECT * FROM tickets WHERE status = :status";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':status', $status);
+
+        if ($stmt->execute()) {
+            return $stmt->rowCount();
+        } else {
+            $_SESSION['error'] = "An error occurred while processing. Please try again.";
+            return false;
+        }
+    }
+
 
 }
 ?>

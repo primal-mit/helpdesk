@@ -22,15 +22,15 @@ if ($_SESSION['role'] !== 'Administrator') {
     <main class="p-4 p-md-4 flex-grow-1">
    
     <!-- Quick Actions Grid -->
-    <div class="mb-5">
+    <div class="mb-4">
         <h4 class="fw-bold mb-4 text-dark text-uppercase fs-5">Admin Dashboard</h4>
 
         <div class="row mb-3">
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-4 mb-3">
                 <div class="stat-card border-gray">
                     <div class="stat-content">
                         <span class="stat-label">Total Active</span>
-                        <span class="stat-value">6</span>
+                        <span class="stat-value"><?= $ticket->getStatusCount("Open") + $ticket->getStatusCount("In Progress") + $ticket->getStatusCount("Assigned")?></span>
                     </div>
                     <div class="icon-wrapper icon-gray">
                         <i class="bi bi-ticket-perforated"></i>
@@ -38,23 +38,35 @@ if ($_SESSION['role'] !== 'Administrator') {
                 </div>
             </div>
             
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-4 mb-3">
                 <div class="stat-card border-orange">
                     <div class="stat-content">
                         <span class="stat-label">Open</span>
-                        <span class="stat-value">2</span>
+                        <span class="stat-value"><?= $ticket->getStatusCount("Open")?></span>
                     </div>
                     <div class="icon-wrapper icon-orange">
-                        <i class="bi bi-person-dash"></i>
+                        <i class="bi bi-person-exclamation"></i>
                     </div>
                 </div>
             </div>
             
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-4 mb-3">
+                <div class="stat-card border-purple">
+                    <div class="stat-content">
+                        <span class="stat-label">Assigned</span>
+                        <span class="stat-value"><?= $ticket->getStatusCount("Assigned")?></span>
+                    </div>
+                    <div class="icon-wrapper icon-purple">
+                        <i class="bi bi-person-check-fill"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-4 mb-3">
                 <div class="stat-card border-blue">
                     <div class="stat-content">
                         <span class="stat-label">In Progress</span>
-                        <span class="stat-value">2</span>
+                        <span class="stat-value"><?= $ticket->getStatusCount("In Progress")?></span>
                     </div>
                     <div class="icon-wrapper icon-blue">
                         <i class="bi bi-gear"></i>
@@ -62,17 +74,31 @@ if ($_SESSION['role'] !== 'Administrator') {
                 </div>
             </div>
             
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-4 mb-3">
                 <div class="stat-card border-green">
                     <div class="stat-content">
                         <span class="stat-label">Resolved</span>
-                        <span class="stat-value">2</span>
+                        <span class="stat-value"><?= $ticket->getStatusCount("Resolved")?></span>
                     </div>
                     <div class="icon-wrapper icon-green">
                         <i class="bi bi-check-circle"></i>
                     </div>
                 </div>
             </div>
+                      
+            <div class="col-sm-6 col-xl-4 mb-3">
+                <div class="stat-card border-gray">
+                    <div class="stat-content">
+                        <span class="stat-label">Closed</span>
+                        <span class="stat-value"><?= $ticket->getStatusCount("Closed")?></span>
+                    </div>
+                    <div class="icon-wrapper icon-gray">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                </div>
+            </div>
+            
+
         </div>
 
     </div>
@@ -146,11 +172,6 @@ if ($_SESSION['role'] !== 'Administrator') {
                     </tbody>
                 </table>
                 </div>
-            </div>
-            <!-- Table Footer/Pagination -->
-            <div class="card-footer bg-white border-top py-3 px-4 d-flex justify-content-between align-items-center">
-                <span class="text-muted small">Showing 1 to 5 entries</span>
-                <a href="../../views/ticket/view-tickets.php"><button class="btn btn-sm btn-outline-secondary">View All</button></a>
             </div>
         </div>
     </div>
