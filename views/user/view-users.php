@@ -32,6 +32,9 @@ if ($_SESSION['role'] !== 'Administrator') {
                 <p class="text-muted mb-0 fw-medium">Add, edit, and manage system access for requesters, agents, and administrators.</p>
             </div>
             <div>
+                <button class="btn btn-default fw-bold shadow-sm px-4 rounded-pill" style="border: 1px solid #8888" onclick="location.reload();">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Reload
+                </button> 
                 <a href="../user/create-user.php">
                 <button class="btn btn-success fw-bold shadow-sm px-4 rounded-pill">
                     <i class="bi bi-person-plus-fill me-1"></i> Add New User
@@ -67,8 +70,8 @@ if ($_SESSION['role'] !== 'Administrator') {
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Account Status</label>
                     <select class="form-select bg-light border-0 shadow-none" name="filter_status">
                         <option value="">All Statuses</option>
-                        <option value="Active" <?= ($filter_role == 'Active') ? 'selected' : '' ?>>Active</option>
-                        <option value="Inactive" <?= ($filter_role == 'Inactive') ? 'selected' : '' ?>>Inactive</option>
+                        <option value="Active" <?= ($filter_status == 'Active') ? 'selected' : '' ?>>Active</option>
+                        <option value="Inactive" <?= ($filter_status == 'Inactive') ? 'selected' : '' ?>>Inactive</option>
                     </select>
                 </div>
 
@@ -124,8 +127,12 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                     </tbody>
                 </table>
-            </div>            
+            </div>                       
         </div>
+
+        <?php if (count($users) == 0):  ?>
+            <p>No Results Found!</p>
+        <?php endif ?> 
     </main>
     <!-- END MAIN CONTENT -->
 

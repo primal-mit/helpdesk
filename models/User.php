@@ -50,6 +50,15 @@ class User {
         return $row;
     }
 
+    public function getRequesterUsers() {
+        $query = "SELECT * FROM users WHERE role = 'Requester'";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
     //Get User by ID
     public function getUserById($id) {
         $query = "SELECT * FROM users WHERE id = :id LIMIT 1";

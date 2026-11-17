@@ -40,6 +40,15 @@
         
         <!-- Right Side Actions & Profile -->
         <div class="d-flex align-items-center gap-4">
+
+            <div class="input-group d-none d-lg-flex border rounded-3 bg-light" style="width: 320px;">
+                <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-search"></i></span>
+                    <form action="../../views/ticket/view-tickets.php" method="GET">
+                    <input type="text" class="form-control bg-transparent border-0 shadow-none ps-0" name="filter_ticket_id" placeholder="Search tickets ...">
+                    <button type="submit" class="btn btn-secondary" style="display: none;"></button>
+                    </form>
+                    <span class="input-group-text bg-transparent border-0"></span>
+            </div>
                   
             <div class="d-flex align-items-center gap-3">
                                 

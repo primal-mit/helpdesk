@@ -27,7 +27,7 @@ class Ticket {
 
 
     // Retrieves all tickets for the Admin/Agent dashboard
-    public function getTickets() {
+    public function getTickets($filter_ticket_id, $filter_status, $filter_priority, $filter_category_id, $filter_requester_id, $filter_agent_id) {
         $query = "SELECT 
             t.*,
             c.name AS category_name,
@@ -39,10 +39,45 @@ class Ticket {
           LEFT JOIN categories c ON t.category_id = c.id
           LEFT JOIN users requester ON t.requester_id = requester.id
           LEFT JOIN users agent ON t.agent_id = agent.id
-          ORDER BY t.created_at DESC";
+          WHERE 1 = 1 ";
                   
+        $params = [];
+
+        if ($filter_ticket_id != '') {
+            $query .= " AND t.id = :ticket_id";
+            $params[':ticket_id'] = $filter_ticket_id;
+        }
+
+        if ($filter_status != '') {
+            $query .= " AND t.status = :status";
+            $params[':status'] = $filter_status;
+        }
+
+        if ($filter_priority != '') {
+            $query .= " AND t.priority = :priority";
+            $params[':priority'] = $filter_priority;
+        }
+
+        if ($filter_category_id != '') {
+            $query .= " AND t.category_id = :category_id";
+            $params[':category_id'] = $filter_category_id;
+        }
+
+        if ($filter_requester_id != '') {
+            $query .= " AND t.requester_id = :requester_id";
+            $params[':requester_id'] = $filter_requester_id;
+        }
+
+        if ($filter_agent_id != '') {
+            $query .= " AND t.agent_id = :agent_id";
+            $params[':agent_id'] = $filter_agent_id;
+        }
+
+        $query .= " ORDER BY t.created_at DESC";
+
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->execute($params);
+        
         return $stmt->fetchAll();
     }
 
