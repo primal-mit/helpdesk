@@ -115,6 +115,22 @@ class Ticket {
         return $stmt->rowCount();
     }
 
+    public function getCreatedTicketsCount($user_id) {
+        $query = "SELECT * FROM tickets WHERE requester_id = ".$user_id;
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public function getAssignedTicketsCount($user_id) {
+        $query = "SELECT * FROM tickets WHERE agent_id = ".$user_id;
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
      public function getMyAssignedTickets() {
         $query = "SELECT 
             t.*,
