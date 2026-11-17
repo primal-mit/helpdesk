@@ -5,12 +5,29 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+
 require_once '../../models/Database.php';
 require_once '../../models/Ticket.php'; 
 require_once '../../models/User.php'; 
 $ticket = new Ticket();
 $ticket_id = $_GET["id"];
 $ticket = $ticket->getTicket($ticket_id);  
+
+
+//Denie access to others tickets (Agents)
+if ($_SESSION['role'] == 'Agent' && $ticket['agent_id'] != $_SESSION['user_id']) {
+    echo "Access Denied. You do not have permission to access this page.";
+    exit();
+}
+
+//Denie access to others tickets (Requester)
+if ($_SESSION['role'] == 'Requester' && $ticket['requester_id'] != $_SESSION['user_id']) {  
+    echo "Access Denied. You do not have permission to access this page.";
+    exit();
+}
+
+
+
 
 $user = new User();
 $agents = $user->getAgentUsers();
@@ -24,11 +41,6 @@ switch($ticket['status']){
     case "Closed": $current_status_index = 4; break;
 }
 
-//Denie access to others tickets (Requester)
-if ($_SESSION['role'] == 'Requester') {
-    echo "Access Denied. You do not have permission to access this page.";
-    exit();
-}
 ?>
 
 
@@ -264,7 +276,7 @@ if ($_SESSION['role'] == 'Requester') {
                     <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                   
                         <input type="hidden" name="ticket_id" value="<?=  $ticket['id'] ?>">
                         <button type="submit" name="mark_as_in_progress_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
-                            <i class="bi bi-save me-2"></i> Mark as In Progress
+                            <i class="bi bi-gear me-2"></i> Mark as In Progress
                         </button>
                     </form>
                 </div>
@@ -281,7 +293,7 @@ if ($_SESSION['role'] == 'Requester') {
                         <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                  
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
                             <button type="submit" name="mark_as_resolved_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
-                                <i class="bi bi-save me-2"></i> Mark as Resolved
+                                <i class="bi bi-check-circle me-2"></i> Mark as Resolved
                             </button>
                         </form>
                     </div>
@@ -297,7 +309,7 @@ if ($_SESSION['role'] == 'Requester') {
                         <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                             
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
                             <button type="submit" name="close_ticket_submit" class="btn btn-danger w-100 fw-bold py-2 shadow-sm">
-                                <i class="bi bi-save me-2"></i> Close the Ticket
+                                <i class="bi bi-x-circle me-2"></i> Close the Ticket
                             </button>
                         </form>
                     </div>
