@@ -107,6 +107,14 @@ class Ticket {
         return $stmt->fetchAll();
     }
 
+     public function getMyTicketsCount() {
+        $query = "SELECT * FROM tickets WHERE requester_id = ".$_SESSION['user_id'];
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
      public function getMyAssignedTickets() {
         $query = "SELECT 
             t.*,

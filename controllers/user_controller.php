@@ -81,7 +81,6 @@ if (isset($_POST['create_user_submit'])) {
 
 
 
-
 if (isset($_POST['update_user_submit'])) {
     $user_id = $_POST['user_id'];
     $first_name = trim($_POST['first_name']);
@@ -154,6 +153,61 @@ if (isset($_POST['update_user_submit'])) {
         exit();
     }
 }
+
+
+
+if (isset($_POST['save_my_profile_submit'])) {
+    $user_id = $_SESSION['user_id'];
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $phone_number = trim($_POST['phone_number']);
+    $email = trim($_POST['email']);
+
+    //Serverside validation
+    if (empty($first_name)){
+        $_SESSION['error'] = "First name is required.";
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    }
+
+    if (empty($last_name)){
+        $_SESSION['error'] = "Last name is required.";
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    }
+
+    if (empty($email)){
+        $_SESSION['error'] = "Email address is required.";
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    }
+    
+    if (empty($phone_number)){
+        $_SESSION['error'] = "Phone number is required.";
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error'] = "Invalid email format. Please enter a valid email address.";
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    }
+
+    // Code goes here to update the user in the database
+    $user = new User();
+    $result = $user->saveMyProfile($user_id, $first_name, $last_name, $phone_number, $email);
+
+    if ($result) {
+        $_SESSION['success'] = "User updated successfully.";
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    } else {
+        header("Location: ../views/user/my-profile.php");
+        exit();
+    }
+}
+
 
 
 if(isset($_POST['delete_user_submit'])) {

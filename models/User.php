@@ -108,6 +108,39 @@ class User {
         }
     }
 
+
+
+    public function saveMyProfile($id, $first_name, $last_name, $phone_number, $email) {
+        // Check if username already exists for another user
+        $query = "SELECT * FROM users WHERE username = :username AND id != :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $_SESSION['error'] = "Username already exists. Please choose a different username.";
+            return false;
+        }
+
+        // Update user details in the database
+        $query = "UPDATE users SET first_name = :first_name, last_name = :last_name, phone_number = :phone_number, email = :email WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':phone_number', $phone_number);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the user. Please try again.";
+            return false;
+        }
+    }
+
     public function delete($id) {
         $query = "DELETE FROM users WHERE id = :id";
         $stmt = $this->conn->prepare($query);
