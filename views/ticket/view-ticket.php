@@ -9,6 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 require_once '../../models/Database.php';
 require_once '../../models/Ticket.php'; 
 require_once '../../models/User.php'; 
+require_once '../../models/StatusHistory.php'; 
+
 $ticket = new Ticket();
 $ticket_id = $_GET["id"];
 $ticket = $ticket->getTicket($ticket_id);  
@@ -245,6 +247,7 @@ switch($ticket['status']){
                         
                         <form class="mt-0 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                  
                             <input type="hidden" name="ticket_id" value="<?=  $ticket['id'] ?>">
+                            <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
                             <div class="mb-4">
                                 <label class="form-label text-dark fw-bold">Agent</label>
                                 <select class="form-select border-0 shadow-sm py-2" name="agent_id" required>
@@ -275,6 +278,7 @@ switch($ticket['status']){
                     
                     <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                   
                         <input type="hidden" name="ticket_id" value="<?=  $ticket['id'] ?>">
+                        <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
                         <button type="submit" name="mark_as_in_progress_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
                             <i class="bi bi-gear me-2"></i> Mark as In Progress
                         </button>
@@ -292,6 +296,7 @@ switch($ticket['status']){
                         
                         <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                  
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                            <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
                             <button type="submit" name="mark_as_resolved_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
                                 <i class="bi bi-check-circle me-2"></i> Mark as Resolved
                             </button>
@@ -308,6 +313,7 @@ switch($ticket['status']){
                         
                         <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                             
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                            <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
                             <button type="submit" name="close_ticket_submit" class="btn btn-danger w-100 fw-bold py-2 shadow-sm">
                                 <i class="bi bi-x-circle me-2"></i> Close the Ticket
                             </button>

@@ -2,6 +2,7 @@
 session_start();
 require_once '../models/Database.php';
 require_once '../models/Ticket.php';
+require_once '../models/StatusHistory.php';
 
 $ticket = new Ticket();
 
@@ -32,6 +33,8 @@ if (isset($_POST['create_ticket_submit'])) {
 if (isset($_POST['assign_an_agent_submit'])) {
     $ticket_id = $_POST['ticket_id'];
     $agent_id = $_POST['agent_id'];
+    $changed_by_user_id = $_SESSION['user_id'];
+    $current_status = $_POST['current_status'];
 
     if($agent_id == ""){
         $_SESSION['error'] = "Please select an agent.";
@@ -39,7 +42,7 @@ if (isset($_POST['assign_an_agent_submit'])) {
         exit();
     }
 
-    $result = $ticket->assignAnAgent($ticket_id, $agent_id);
+    $result = $ticket->assignAnAgent($ticket_id, $agent_id, $changed_by_user_id, $current_status);
 
     
     if ($result) {
@@ -53,29 +56,16 @@ if (isset($_POST['assign_an_agent_submit'])) {
 }
 
 
-
-if (isset($_POST['mark_as_inprogress_submit'])) {
-    $ticket_id = $_POST['ticket_id'];
-
-    $result = $ticket->markAsInProgress($ticket_id);
-
-    if ($result) {
-        $_SESSION['success'] = "Ticket updated successfully.";
-        header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
-        exit();
-    } else {
-        header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
-        exit();
-    }
-}
-
 if (isset($_POST['mark_as_in_progress_submit'])) {
     $ticket_id = $_POST['ticket_id'];
+    $changed_by_user_id = $_SESSION['user_id'];
+    $current_status = $_POST['current_status'];
 
-    $result = $ticket->markAsInProgress($ticket_id);
+    // $result = $ticket->markAsInProgress($ticket_id, $changed_by_user_id, $current_status);
+    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"In Progress");
 
     if ($result) {
-        $_SESSION['success'] = "Ticket updated successfully.";
+        $_SESSION['success'] = "Ticket marked as In Progress.";
         header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
         exit();
     } else {
@@ -86,11 +76,14 @@ if (isset($_POST['mark_as_in_progress_submit'])) {
 
 if (isset($_POST['mark_as_resolved_submit'])) {
     $ticket_id = $_POST['ticket_id'];
+    $changed_by_user_id = $_SESSION['user_id'];
+    $current_status = $_POST['current_status'];
 
-    $result = $ticket->markAsResolived($ticket_id);
+    // $result = $ticket->markAsResolived($ticket_id, $changed_by_user_id, $current_status);
+    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"Resolved");
 
     if ($result) {
-        $_SESSION['success'] = "Ticket updated successfully.";
+        $_SESSION['success'] = "Ticket marked as Resolved.";
         header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
         exit();
     } else {
@@ -101,11 +94,14 @@ if (isset($_POST['mark_as_resolved_submit'])) {
 
 if (isset($_POST['close_ticket_submit'])) {
     $ticket_id = $_POST['ticket_id'];
+    $changed_by_user_id = $_SESSION['user_id'];
+    $current_status = $_POST['current_status'];
 
-    $result = $ticket->closeTicket($ticket_id);
+    //$result = $ticket->closeTicket($ticket_id, $changed_by_user_id, $current_status);
+    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"Closed");
 
     if ($result) {
-        $_SESSION['success'] = "Ticket updated successfully.";
+        $_SESSION['success'] = "Ticket closed successfully.";
         header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
         exit();
     } else {
