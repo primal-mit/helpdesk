@@ -193,7 +193,7 @@ class Ticket {
 
 
     //Update Status
-    public function updateStatus($ticket_id, $changed_by_user_id, $old_status, $new_status) {
+    public function updateStatus($ticket_id, $changed_by_user_id, $old_status, $new_status, $notes) {
         $query = "UPDATE tickets SET status=:status WHERE id=:id";
                   
         $stmt = $this->conn->prepare($query);
@@ -201,7 +201,7 @@ class Ticket {
         $stmt->bindParam(':status', $new_status);
 
         if ($stmt->execute()) {
-            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, $new_status);
+            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, $new_status, $notes);
 
             if($status_transition){
                 return true;
@@ -218,7 +218,7 @@ class Ticket {
 
 
     //Assign an Agent
-    public function assignAnAgent($ticket_id, $agent_id, $changed_by_user_id, $old_status) {
+    public function assignAnAgent($ticket_id, $agent_id, $changed_by_user_id, $old_status, $notes) {
         $query = "UPDATE tickets SET status='Assigned', agent_id=:agent_id WHERE id=:id";
                   
         $stmt = $this->conn->prepare($query);
@@ -226,7 +226,7 @@ class Ticket {
         $stmt->bindParam(':id', $ticket_id);
 
         if ($stmt->execute()) {
-            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, "Assigned");
+            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, "Assigned", $notes);
 
             if($status_transition){
                 return true;
@@ -242,73 +242,7 @@ class Ticket {
         }
     }
 
-    //Mark as In Progress
-    public function markAsInProgress($ticket_id, $changed_by_user_id, $old_status) {
-        $query = "UPDATE tickets SET status='In Progress' WHERE id=:id";
-                  
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $ticket_id);
-        // $stmt->execute();
-
-        if ($stmt->execute()) {
-            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, "In Progress");
-
-            if($status_transition){
-                return true;
-            }else{
-            $_SESSION['error'] = "Update compelted but an error occurred while recording status history. Please try again.";
-                return false;
-            }
-
-        } else {
-            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
-            return false;
-        }
-    }
-
-    //Mark as Resolved
-    public function markAsResolived($ticket_id, $changed_by_user_id, $old_status) {
-        $query = "UPDATE tickets SET status='Resolved' WHERE id=:id";
-                  
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $ticket_id);
-        // $stmt->execute();
-
-        if ($stmt->execute()) {
-            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, "Resolved");
-            if($status_transition){
-                return true;
-            }else{
-            $_SESSION['error'] = "Update compelted but an error occurred while recording status history. Please try again.";
-                return false;
-            }
-        } else {
-            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
-            return false;
-        }
-    }
-
-    //Close Ticket
-    public function closeTicket($ticket_id, $changed_by_user_id, $old_status) {
-        $query = "UPDATE tickets SET status='Closed' WHERE id=:id";
-                  
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $ticket_id);
-        // $stmt->execute();
-
-        if ($stmt->execute()) {
-            $status_transition = $this->statusHistory->recordTransition($ticket_id, $changed_by_user_id, $old_status, "Closed");
-            if($status_transition){
-                return true;
-            }else{
-            $_SESSION['error'] = "Update compelted but an error occurred while recording status history. Please try again.";
-                return false;
-            }
-        } else {
-            $_SESSION['error'] = "An error occurred while updating the ticket. Please try again.";
-            return false;
-        }
-    }
+  
 
     public function getStatusCount($status){
         $query = "SELECT * FROM tickets WHERE status = :status";

@@ -35,6 +35,7 @@ if (isset($_POST['assign_an_agent_submit'])) {
     $agent_id = $_POST['agent_id'];
     $changed_by_user_id = $_SESSION['user_id'];
     $current_status = $_POST['current_status'];
+    $notes = $_POST['notes'];
 
     if($agent_id == ""){
         $_SESSION['error'] = "Please select an agent.";
@@ -42,7 +43,7 @@ if (isset($_POST['assign_an_agent_submit'])) {
         exit();
     }
 
-    $result = $ticket->assignAnAgent($ticket_id, $agent_id, $changed_by_user_id, $current_status);
+    $result = $ticket->assignAnAgent($ticket_id, $agent_id, $changed_by_user_id, $current_status,$notes);
 
     
     if ($result) {
@@ -60,9 +61,10 @@ if (isset($_POST['mark_as_in_progress_submit'])) {
     $ticket_id = $_POST['ticket_id'];
     $changed_by_user_id = $_SESSION['user_id'];
     $current_status = $_POST['current_status'];
+    $notes = $_POST['notes'];
 
     // $result = $ticket->markAsInProgress($ticket_id, $changed_by_user_id, $current_status);
-    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"In Progress");
+    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"In Progress",$notes);
 
     if ($result) {
         $_SESSION['success'] = "Ticket marked as In Progress.";
@@ -78,9 +80,10 @@ if (isset($_POST['mark_as_resolved_submit'])) {
     $ticket_id = $_POST['ticket_id'];
     $changed_by_user_id = $_SESSION['user_id'];
     $current_status = $_POST['current_status'];
+    $notes = $_POST['notes'];
 
     // $result = $ticket->markAsResolived($ticket_id, $changed_by_user_id, $current_status);
-    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"Resolved");
+    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"Resolved", $notes);
 
     if ($result) {
         $_SESSION['success'] = "Ticket marked as Resolved.";
@@ -96,9 +99,10 @@ if (isset($_POST['close_ticket_submit'])) {
     $ticket_id = $_POST['ticket_id'];
     $changed_by_user_id = $_SESSION['user_id'];
     $current_status = $_POST['current_status'];
+    $notes = $_POST['notes'];
 
     //$result = $ticket->closeTicket($ticket_id, $changed_by_user_id, $current_status);
-    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"Closed");
+    $result = $ticket->updateStatus($ticket_id, $changed_by_user_id, $current_status,"Closed", $notes);
 
     if ($result) {
         $_SESSION['success'] = "Ticket closed successfully.";

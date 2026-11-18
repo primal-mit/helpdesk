@@ -248,17 +248,20 @@ switch($ticket['status']){
                         <form class="mt-0 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                  
                             <input type="hidden" name="ticket_id" value="<?=  $ticket['id'] ?>">
                             <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
-                            <div class="mb-4">
+                            <div class="mb-2">
                                 <label class="form-label text-dark fw-bold">Agent</label>
-                                <select class="form-select border-0 shadow-sm py-2" name="agent_id" required>
+                                <select class="form-select shadow-sm py-2" name="agent_id" required>
                                     <option value="">Unassigned</option>
                                     <?php foreach($agents as $agent):?>
                                     <option value="<?= $agent['id'] ?>"><?= $agent['first_name'] ." ". $agent['last_name'] ?></option>
                                     <?php endforeach ?>
-                                </select>
+                                </select>                                
+
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Please select an agent</div>
                             </div>
+
+                            <textarea class="form-control mb-2" name="notes" rows="2" placeholder="Additional Notes (optional)"></textarea>
                                                     
                             <button type="submit" name="assign_an_agent_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
                                 <i class="bi bi-save me-2"></i> Assign an Agent
@@ -273,12 +276,13 @@ switch($ticket['status']){
                 <?php if ($_SESSION['role'] == 'Agent' && $ticket['status'] == "Assigned") : ?>
                 <div class="card border-success border-opacity-50 bg-success- bg-opacity-10 shadow-sm rounded-4 p-4 mb-4">
                     <div class="d-flex align-items-center border-bottom border-success border-opacity-25 pb-3 mb-3">
-                        <h3 class="fw-bolder text-success fs-5 mb-0 d-flex align-items-center gap-2"><i class="bi bi-sliders"></i> Update Ticket Status</h3>
+                        <h3 class="fw-bolder text-success fs-5 mb-0 d-flex align-items-center gap-2"><i class="bi bi-sliders"></i> Mark as In Progress</h3>
                     </div>
                     
                     <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                   
                         <input type="hidden" name="ticket_id" value="<?=  $ticket['id'] ?>">
                         <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
+                        <textarea class="form-control mb-2" name="notes" rows="2" placeholder="Additional Notes (optional)"></textarea>
                         <button type="submit" name="mark_as_in_progress_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
                             <i class="bi bi-gear me-2"></i> Mark as In Progress
                         </button>
@@ -291,12 +295,13 @@ switch($ticket['status']){
                 <?php if (($_SESSION['role'] == 'Agent' || $_SESSION['role'] == 'Administrator') && $ticket['status'] != "Resolved") : ?>
                     <div class="card border-success border-opacity-50 bg-success- bg-opacity-10 shadow-sm rounded-4 p-4 mb-4" >
                         <div class="d-flex align-items-center border-bottom border-success border-opacity-25 pb-3 mb-3">
-                            <h3 class="fw-bolder text-success fs-5 mb-0 d-flex align-items-center gap-2"><i class="bi bi-sliders"></i> Update Ticket Status</h3>
+                            <h3 class="fw-bolder text-success fs-5 mb-0 d-flex align-items-center gap-2"><i class="bi bi-sliders"></i> Mark as Resolved</h3>
                         </div>
                         
                         <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                                  
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
                             <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
+                            <textarea class="form-control mb-2" name="notes" rows="2" placeholder="Additional Notes (optional)"></textarea>
                             <button type="submit" name="mark_as_resolved_submit" class="btn btn-success w-100 fw-bold py-2 shadow-sm">
                                 <i class="bi bi-check-circle me-2"></i> Mark as Resolved
                             </button>

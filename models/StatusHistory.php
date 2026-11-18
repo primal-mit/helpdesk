@@ -9,15 +9,16 @@ class StatusHistory {
     }    
 
     // Records an immutable audit log entry when a ticket transitions states
-    public function recordTransition($ticket_id, $changed_by_user_id, $old_status, $new_status) {
-        $query = "INSERT INTO status_history (ticket_id, changed_by_user_id, old_status, new_status) 
-                  VALUES (:ticket_id, :changed_by, :old_status, :new_status)";
+    public function recordTransition($ticket_id, $changed_by_user_id, $old_status, $new_status, $notes) {
+        $query = "INSERT INTO status_history (ticket_id, changed_by_user_id, old_status, new_status, notes) 
+                  VALUES (:ticket_id, :changed_by, :old_status, :new_status, :notes)";
         
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':ticket_id', $ticket_id);
         $stmt->bindParam(':changed_by', $changed_by_user_id);
         $stmt->bindParam(':old_status', $old_status);
         $stmt->bindParam(':new_status', $new_status);
+        $stmt->bindParam(':notes', $notes);
         
         return $stmt->execute();
     }
