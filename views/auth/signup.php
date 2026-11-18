@@ -128,13 +128,13 @@
 
             <!-- Submit Button -->
             <div class="text-center mt-3">
-                <a href="login.php" class="btn btn-light bottom-btn me-3">              
+                <a href="login.php" class="btn btn-light bottom-btn me-3 border">              
                     <i class="bi bi-caret-left-fill me-1"></i> Go to Login
                 </a>                
                 <button type="submit" class="btn btn-success bottom-btn me-3" name="signup_submit">
                     <i class="bi bi-check-circle"></i> Sign Up
                 </button>
-                <button type="reset" class="btn btn-light bottom-btn">
+                <button type="reset" class="btn btn-light bottom-btn border">
                     <i class="bi bi-arrow-clockwise"></i> Reset
                 </button>                            
             </div>                        

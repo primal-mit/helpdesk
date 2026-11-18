@@ -38,6 +38,8 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-white text-muted"><i class="bi bi-person"></i></span>
                         <input type="text" class="form-control border-start-0 ps-0" name="username" placeholder="Enter your username" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please enter the username.</div>
                     </div>
                 </div>
 
@@ -49,6 +51,8 @@
                     <div class="input-group">
                         <span class="input-group-text bg-white text-muted"><i class="bi bi-shield-lock"></i></span>
                         <input type="password" class="form-control border-start-0 ps-0" name="password" value="password123" placeholder="Enter your password" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please enter the password.</div>
                     </div>
                 </div>
 
@@ -66,12 +70,7 @@
                         echo '<div class="alert alert-success py-1 small" role="alert">' . $_SESSION['success'] . '</div>';    
                         unset($_SESSION['success']);              
                     }
-                ?>
-
-                <div class="mb-2 form-check">
-                    <input type="checkbox" class="form-check-input" id="rememberMe">
-                    <label class="form-check-label text-muted small fw-bold" for="rememberMe">Remember me on this device</label>
-                </div>
+                ?>                
             
                 <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm" name="login_submit">
                     Log In <i class="bi bi-arrow-right ms-1"></i>
@@ -88,6 +87,28 @@
         </div>
         
     </div>
+
+
+    <script>    
+        (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
+    </script>
 
     <!-- Bootstrap 5.1.3 JS -->
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
