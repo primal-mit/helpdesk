@@ -68,3 +68,41 @@
 .timeline-step .bg-secondary{
     background-color: #d0d5d1 !important;
 }
+
+
+/* Vertical Timeline */
+.h-timeline {
+    padding-left: 30px;
+}
+
+.h-timeline-item {
+    position: relative;
+    margin-bottom: 1.75rem;
+}
+
+.h-timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.h-timeline-dot {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: -30px;
+    top: 3px;
+    background-color: #198754;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.h-timeline-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    left: -24px;
+    top: 14px;
+    height: calc(100% + 2rem - 3px);
+    background-color: #dee2e6;
+}

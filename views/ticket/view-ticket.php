@@ -5,7 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-
 require_once '../../models/Database.php';
 require_once '../../models/Ticket.php'; 
 require_once '../../models/User.php'; 
@@ -14,6 +13,9 @@ require_once '../../models/StatusHistory.php';
 $ticket = new Ticket();
 $ticket_id = $_GET["id"];
 $ticket = $ticket->getTicket($ticket_id);  
+
+$statusHistory = new StatusHistory();
+$activities = $statusHistory->getHistoryByTicket($ticket_id);
 
 
 //Denie access to others tickets (Agents)
@@ -27,8 +29,6 @@ if ($_SESSION['role'] == 'Requester' && $ticket['requester_id'] != $_SESSION['us
     echo "Access Denied. You do not have permission to access this page.";
     exit();
 }
-
-
 
 
 $user = new User();
@@ -49,6 +49,9 @@ switch($ticket['status']){
 <?php include_once('../partials/header.php'); ?>
 
 <link rel="stylesheet" type="text/css" href="../../assets/css/timeline.css"/>
+
+
+
 
     <!-- MAIN CONTENT: TICKET DETAILS PAGE -->
     <main class="p-4 p-md-4 flex-grow-1">
@@ -73,14 +76,12 @@ switch($ticket['status']){
                     <!-- Timeline Nodes -->
                     <div class="d-flex justify-content-between position-relative w-100 text-center" id="timeline-nodes">
                         <!-- Nodes will be generated and updated by JavaScript -->
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
             
             <!-- Right Status -->
-            <div class="text-center">
-                
+            <div class="text-center">                
                 <span class="badge bg-default bg-opacity-10 fw-bolder text-success border border-success border-opacity-100 fs-6 px-4 py-2 rounded-pill shadow-sm- ">
                     <?php
                         switch($ticket['status']){
@@ -169,49 +170,66 @@ switch($ticket['status']){
                     </div>
                 </div>
 
-                <!-- Activity & Comments Tracking -->
+                <!-- Activities -->
                 <div class="card border-0 shadow-sm rounded-4 mb-4 p-4">
                     <div class="d-flex align-items-center border-bottom pb-3 mb-4">
-                        <h3 class="fw-bolder text-dark fs-5 mb-0 d-flex align-items-center gap-2"><i class="bi bi-clock-history text-success"></i> Activity & Comments</h3>
+                        <h3 class="fw-bolder text-dark fs-5 mb-0 d-flex align-items-center gap-2"><i class="bi bi-clock-history text-success"></i> Activity Tracking</h3>
                     </div>
                     
-                    <div class="border-start ms-2 ps-4 position-relative border-2 mt-4">
+                    <div  class="h-timeline mt-0">      
                         
-                        <!-- System Note -->
-                        <div class="mb-4 position-relative">
-                            <div class="position-absolute rounded-circle bg-secondary border border-3 border-white shadow-sm" style="width: 14px; height: 14px; left: -1.5rem; top: 0.25rem; margin-left: -6px;"></div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="fw-bold text-dark">System Note</span>
-                                <span class="text-muted" style="font-size: 0.8rem;">&bull; Sep 22, 09:15 AM</span>
+                    
+                        <!-- Open Status -->                        
+                        <div class="h-timeline-item">
+                            <div class="h-timeline-dot"></div>
+                            <!-- Transision -->                                                    
+                            <div class="fw-semibold mb-1" style="font-size: 1rem;">
+                                Ticket created successfully and is currently <span class="text-success fw-bold fst-normal">Open</span>.
                             </div>
-                            <div class="text-muted fst-italic" style="font-size: 0.95rem;">
-                                Ticket assigned to <span class="text-dark fw-bold fst-normal">Kasun (Agent)</span> and status changed to <span class="text-primary fw-bold fst-normal">Assigned</span>.
-                            </div>
-                        </div>
 
-                        <!-- Agent Comment -->
-                        <div class="mb-4 position-relative">
-                            <div class="position-absolute rounded-circle bg-success border border-3 border-white shadow-sm" style="width: 14px; height: 14px; left: -1.5rem; top: 0.25rem; margin-left: -6px;"></div>
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <span class="fw-bold text-success">Agent Kasun</span>
-                                <span class="text-muted" style="font-size: 0.8rem;">&bull; Sep 22, 09:30 AM</span>
-                            </div>
-                            <div class="bg-light border p-3 rounded-3 text-dark fw-medium" style="font-size: 0.95rem;">
-                                I am heading to the second floor now to check the main switch and the wireless access points[cite: 4].
+                            <!-- User and Time -->
+                             <div class="d-flex align-items-center gap-2 mb-3" style="font-size: 0.85rem;">
+                                <span class="fw-bold text-success"> <?php echo $ticket['requester_first_name'] . " ". $ticket['requester_last_name']; ?></span>
+                                <span class="text-muted fst-italic" style="">(<?= $ticket['requester_role'] ?>)</span>
+                                <span class="text-muted" style="">&bull; <?= date('M d, h:i A', strtotime($ticket['created_at'])) ?></span>
                             </div>
                         </div>
+                    
+                
+                        <?php foreach($activities as $activity): ?>
+                            
+                            <div class="h-timeline-item">
+                                
+                                <!-- Transision -->                                
+                                <div class="fw-semibold mb-1" style="font-size: 1rem;">
+                                    <?php if($activity['new_status'] == "Assigned"):?>
+                                        Ticket <span class="text-success fw-bold fst-normal">Assigned</span> to 
+                                        <span class="text-dark fw-bold fst-normal" style="font-size: 0.9rem;"><?= $ticket['agent_first_name']." ".$ticket['agent_last_name'] ?> </span> 
+                                        (Agent)                                    
+                                    <?php else: ?>                                    
+                                        Status changed from <span class="fw-semibold"><?= $activity['old_status'] ?></span> to 
+                                        <span class="text-success fw-bold fst-normal"><?= $activity['new_status'] ?></span>.                                    
+                                    <?php endif ?>
+                                </div>
 
-                        <!-- System Note -->
-                        <div class="mb-0 position-relative">
-                            <div class="position-absolute rounded-circle bg-secondary border border-3 border-white shadow-sm" style="width: 14px; height: 14px; left: -1.5rem; top: 0.25rem; margin-left: -6px;"></div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="fw-bold text-dark">System Note</span>
-                                <span class="text-muted" style="font-size: 0.8rem;">&bull; Sep 22, 09:31 AM</span>
+                                <!-- User and Time -->
+                                <div class="h-timeline-dot"></div>
+                                <div class="d-flex align-items-center gap-2 mb-2" style="font-size: 0.85rem;"></span>
+                                    <span class="fw-bold text-success"><?= $activity['first_name']." ".$activity['last_name'] ?> </span>
+                                    <span class="text-muted fst-italic" style="font-size: 0.9rem;">(<?= $activity['role'] ?>)</span>
+                                    <span class="text-muted" style="font-size: 0.85rem;">&bull; <?= date('M d, h:i A', strtotime($activity['changed_at'])) ?></span>
+                                </div>
+
+                                <!-- Note -->
+                                <?php if($activity['notes'] != ""):?>
+                                <div class="bg-light border p-2 rounded-3 text-dark fw-medium" style="font-size: 0.95rem;">
+                                    <b>Note: </b><?= $activity['notes'] ?>
+                                </div>
+                                <?php endif ?>
+
                             </div>
-                            <div class="text-muted fst-italic" style="font-size: 0.95rem;">
-                                Status changed from Assigned to <span class="text-success fw-bold fst-normal">In Progress</span>.
-                            </div>
-                        </div>
+                            
+                        <?php endforeach ?>
                         
                     </div>
                 </div>
@@ -319,6 +337,7 @@ switch($ticket['status']){
                         <form class="mt-2 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">                             
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
                             <input type="hidden" name="current_status" value="<?=  $ticket['status'] ?>">
+                            <textarea class="form-control mb-2" name="notes" rows="2" placeholder="Additional Notes (optional)"></textarea>
                             <button type="submit" name="close_ticket_submit" class="btn btn-danger w-100 fw-bold py-2 shadow-sm">
                                 <i class="bi bi-x-circle me-2"></i> Close the Ticket
                             </button>

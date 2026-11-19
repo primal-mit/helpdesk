@@ -92,6 +92,7 @@ class Ticket {
             c.name AS category_name,
             requester.first_name AS requester_first_name,
             requester.last_name AS requester_last_name,
+            requester.role AS requester_role,
             agent.first_name AS agent_first_name,
             agent.last_name AS agent_last_name
           FROM tickets t

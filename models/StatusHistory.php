@@ -25,11 +25,11 @@ class StatusHistory {
 
     // Fetches the timeline of status changes for audit views
     public function getHistoryByTicket($ticket_id) {
-        $query = "SELECT status_history.*, u.first_name, u.last_name 
-                  FROM status_history
-                  LEFT JOIN users u ON status_history.changed_by_user_id = u.id
-                  WHERE status_history.ticket_id = :ticket_id
-                  ORDER BY status_history.changed_at DESC";
+        $query = "SELECT history.*, user.first_name, user.last_name,user.role 
+                  FROM status_history as history
+                  LEFT JOIN users user ON history.changed_by_user_id = user.id
+                  WHERE history.ticket_id = :ticket_id
+                  ORDER BY history.changed_at ASC";
                   
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':ticket_id', $ticket_id);
