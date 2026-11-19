@@ -76,14 +76,14 @@ $ticket = new Ticket();
 
                     <!-- Action Buttons -->
                     <div class="d-flex flex-column gap-3 w-100 mb-2" style="max-width: 220px;">
-                        <a href="../../views/ticket/view-tickets.php?requester_id=<?= $user_id ?>" class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2 py-2">
+                        <a href="../../views/ticket/view-tickets.php?filter_requester_id=<?= $user_id ?>" class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2 py-2">
                             <i class="bi bi-ticket-detailed"></i> View Submitted Tickets
                         </a>
                     </div>
 
                     <?php if($user['role'] == "Agent"): ?>
                     <div class="d-flex flex-column gap-3 w-100" style="max-width: 220px;">
-                        <a href="../../views/ticket/view-tickets.php?agent_id=<?= $user_id ?>" class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2 py-2">
+                        <a href="../../views/ticket/view-tickets.php?filter_agent_id=<?= $user_id ?>" class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2 py-2">
                             <i class="bi bi-ticket-detailed"></i> View Assigned Tickets
                         </a>
                     </div>

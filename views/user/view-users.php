@@ -53,12 +53,12 @@ if ($_SESSION['role'] !== 'Administrator') {
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Search User</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light border-0 text-muted shadow-none"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control bg-light border-0 ps-0 shadow-none" placeholder="Search by name..." name="filter_name" value="<?= $filter_name; ?>">
+                        <input type="text" class="form-control" placeholder="Search by name..." name="filter_name" value="<?= $filter_name; ?>">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">System Role</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_role">
+                    <select class="form-select" name="filter_role">
                         <option value="">All Roles</option>
                         <option value="Administrator" <?= ($filter_role == 'Administrator') ? 'selected' : '' ?>>Administrator</option>
                         <option value="Agent" <?= ($filter_role == 'Agent') ? 'selected' : '' ?>>Agent</option>
@@ -68,7 +68,7 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Account Status</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_status">
+                    <select class="form-select" name="filter_status">
                         <option value="">All Statuses</option>
                         <option value="Active" <?= ($filter_status == 'Active') ? 'selected' : '' ?>>Active</option>
                         <option value="Inactive" <?= ($filter_status == 'Inactive') ? 'selected' : '' ?>>Inactive</option>

@@ -40,49 +40,6 @@ if ($_SESSION['role'] !== 'Agent') {
         <!-- Alerts -->
         <?php include('../partials/alerts.php'); ?>
 
-        <!-- Filters Panel -->
-        <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 pb-3">
-            <form class="row g-3 align-items-end">
-                <div class="col-md-2">
-                    <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Ticket ID</label>
-                    <input type="text" class="form-control bg-light border-0 shadow-none" name="filter_ticket_id" placeholder="Ticket ID">
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Status</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_status">
-                        <option value="all">All Statuses</option>
-                        <option value="open">Open</option>
-                        <option value="assigned">Assigned</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="resolved">Resolved</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Priority</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filer_priority">
-                        <option value="all">All Priorities</option>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Category</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_category">
-                        <option value="all">All Categories</option>
-                        <option value="hardware">Hardware</option>
-                        <option value="software">Software</option>
-                        <option value="network">Network</option>
-                        <option value="account">Account</option>
-                    </select>
-                </div>
-                <div class="col-md-3 text-end">
-                    <button type="button" class="btn btn-outline-secondary me-2 fw-bold">Clear</button>
-                    <button type="button" class="btn btn-success fw-bold px-4"><i class="bi bi-funnel me-1"></i> Filter</button>
-                </div>
-            </form>
-        </div>
-
         <!-- Data Table Panel -->
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 p-0">
             <div class="table-responsive">

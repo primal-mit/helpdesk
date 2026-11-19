@@ -43,9 +43,9 @@ $ticket = new Ticket();
 
                 <div class="col-md-6 d-flex flex-column align-items-center align-items-md-start text-center text-md-start mb-4 mb-md-0 ps-md-4">
                     <div class="position-relative mb-3 mt-2">
-                        <img src="https://ui-avatars.com/api/?name=<?= $user['first_name'] . $user['last_name'] ?>&background=0fa968&color=fff&rounded=true&size=100" alt="Profile" class="avatar-xl">                          
+                        <img src="https://ui-avatars.com/api/?name=<?= $user['first_name'] ." ". $user['last_name'] ?>&background=0fa968&color=fff&rounded=true&size=100" alt="Profile" class="avatar-xl">                          
                     </div>
-                    <h4 class="fw-bold mb-1" style="color: var(--text-main);"><?= $user['first_name'] . $user['last_name'] ?></h4>
+                    <h4 class="fw-bold mb-1" style="color: var(--text-main);"><?= $user['first_name'] ." ". $user['last_name'] ?></h4>
                     <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-1 mb-2"><?= $user['role'] ?></span>
                     <p class="text-muted small mb-0"><i class="bi bi-envelope me-1"></i> <?= $user['email'] ?></p>
                     <p class="text-muted small"><i class="bi bi-c   ndar3 me-1"></i> Joined on <?= date('M d, Y', strtotime($user['created_at']))  ?></p>
@@ -140,7 +140,7 @@ $ticket = new Ticket();
         document.getElementById("breadcrumb_item_2").innerHTML = "My Profile";
 
         //Activate Sidebar Link
-        document.getElementById("sb_manage_users").classList.add("sidebar-active");
+        document.getElementById("sb_profile").classList.add("sidebar-active");
     </script>
 
 

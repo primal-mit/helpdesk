@@ -63,7 +63,6 @@ if ($_SESSION['role'] !== 'Administrator') {
                             <td class="ps-4 py-1 fw-medium"> <?= $category['name'] ?></td>
                             <td class="ps-4 py-1 text-muted"><?= $category['description'] ?></td>
                             <td class="text-center pe-4">
-                                <a href="../category/view-category.php?id=<?= $category['id'] ?>" class="btn btn-sm btn-light text-success border" title="View Category"><i class="bi bi-eye"></i></a>
                                 <a href="../category/edit-category.php?id=<?= $category['id'] ?>" class="btn btn-sm btn-light text-primary border me-1" title="Edit Category"><i class="bi bi-pencil"></i></a>
                                 <a href="../category/delete-category.php?id=<?= $category['id'] ?>" class="btn btn-sm btn-light text-danger border" title="Delete Category"><i class="bi bi-trash"></i></a>
                             </td>

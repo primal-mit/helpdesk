@@ -83,7 +83,7 @@ $categories = $category->getCategories();
                         <label class="form-label">
                             <i class="bi bi-justify-left text-success me-2"></i> Detailed Description <span class="text-danger fw-bolder ms-1">*</span>
                         </label>
-                        <textarea class="form-control" name="description" rows="4" placeholder="Please provide as much detail as possible to help us troubleshoot the issue..." required minlength="10"></textarea>
+                        <textarea class="form-control" name="description" rows="2" placeholder="Please provide as much detail as possible to help us troubleshoot the issue..." required minlength="10"></textarea>
                         <div class="valid-feedback">Description looks good!</div>
                         <div class="invalid-feedback">Description must contain at least 10 characters.</div>
                     </div>

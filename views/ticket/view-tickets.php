@@ -70,11 +70,11 @@ if ($_SESSION['role'] !== 'Administrator') {
             <form class="row g-3 align-items-end">
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Ticket ID</label>
-                    <input type="text" class="form-control bg-light border-0 shadow-none" name="filter_ticket_id" placeholder="Ticket ID" value="<?= $filter_ticket_id; ?>">
+                    <input type="text" class="form-control" name="filter_ticket_id" placeholder="Ticket ID" value="<?= $filter_ticket_id; ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Status</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_status">
+                    <select class="form-select" name="filter_status">
                         <option value="">All Statuses</option>
                         <option value="Open" <?= ($filter_status == 'Open') ? 'selected' : '' ?>>Open</option>
                         <option value="Assigned"<?= ($filter_status == 'Assigned') ? 'selected' : '' ?>>Assigned</option>
@@ -84,7 +84,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                 </div>
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Priority</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filer_priority">
+                    <select class="form-select" name="filer_priority">
                         <option value="">All Priorities</option>
                         <option value="Low" <?= ($filter_priority == 'Low') ? 'selected' : '' ?>>Low</option>
                         <option value="Medium" <?= ($filter_priority == 'Medium') ? 'selected' : '' ?>>Medium</option>
@@ -93,7 +93,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                 </div>
                 <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Category</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_category_id">
+                    <select class="form-select " name="filter_category_id">
                         <option value="">All Categories</option>
                         <?php foreach($categories as $category): ?>
                         <option value="<?= $category['id'] ?>" <?= ($category['id'] == $filter_category_id) ? 'selected': '' ?> ><?= $category['name'] ?></option>
@@ -104,7 +104,7 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                  <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Requester</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_requester_id">
+                    <select class="form-select" name="filter_requester_id">
                         <option value="">All Requesters</option>
                         <?php foreach($requesters as $requester): ?>
                         <option value="<?= $requester['id'] ?>" <?= ($requester['id'] == $filter_requester_id) ? 'selected': '' ?> ><?= $requester['first_name']." ". $requester['last_name'] ?></option>
@@ -114,7 +114,7 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                  <div class="col-md-3">
                     <label class="form-label text-dark fw-bold mb-1" style="font-size: 0.85rem;">Agent</label>
-                    <select class="form-select bg-light border-0 shadow-none" name="filter_agent_id">
+                    <select class="form-select" name="filter_agent_id">
                         <option value="">All Agents</option>
                         <?php foreach($agents as $agent): ?>
                         <option value="<?= $agent['id'] ?>" <?= ($agent['id'] == $filter_agent_id) ? 'selected': '' ?> ><?= $agent['first_name']." ". $agent['last_name'] ?></option>
