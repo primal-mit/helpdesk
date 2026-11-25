@@ -178,12 +178,12 @@ if ($_SESSION['role'] !== 'Administrator') {
                             </td>
                             <td class="text-muted fw-medium" style="font-size: 0.9rem;"><?= date('M d, H:i', strtotime($ticket['created_at'])) ?></td>
                             <?php                            
-                                switch (strtolower($ticket['priority'])) {
-                                    case 'Low': $priority_badge = 'secondary'; break;
+                                switch (($ticket['priority'])) {
+                                    case 'Low': $priority_badge = 'success'; break;
                                     case 'Medium': $priority_badge = 'warning'; break;
                                     case 'High': $priority_badge = 'danger'; break;
                                     default: $priority_badge = 'secondary'; break;
-                                }
+                            }
                             ?>
                             <td><span class="badge priority-badge badge-<?php echo $priority_badge; ?> py-1 px-2"><?= ucfirst($ticket['priority']) ?></span></td>  
                             <td class="text-center pe-4">

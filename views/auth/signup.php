@@ -100,11 +100,30 @@
                 </div>
 
                 <div class="col-md-6">                                
-                    <label class="form-label">
+                     <label class="form-label">
                         Email Address <span class="text-danger fw-bolder ms-1">*</span>
                     </label>
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">                                
-                    <div class="invalid-feedback">Please enter a valid email address <br>(Eg: name@example.com).</div>
+                    <!--
+                    <input type="email" class="form-control" name="email" placeholder="Email Address" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" >                                
+                    <div class="valid-feedback">Correct Email!</div>
+                    <div class="invalid-feedback">Please enter a valid email address <br>(Eg: name@example.com).</div> -->
+
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="email"
+                        id="email"
+                        placeholder="Email Address"
+                        required
+                        pattern="[a-zA-Z0-9._%+\-]+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}"
+                    >
+                    <div class="valid-feedback">Correct Email!</div>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address (Eg: name@example.com).
+                    </div>
+
+
                 </div>
             </div>
 
@@ -150,7 +169,6 @@
 <script>    
     (() => {
     'use strict'
-
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     const forms = document.querySelectorAll('.needs-validation')
 
@@ -166,6 +184,24 @@
         }, false)
     })
     })()
+</script>
+
+
+<script>    
+   const email = document.getElementById('email');
+    const emailRegex = /^[a-zA-Z0-9._%+\-]+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$/;
+
+    function checkEmail() {
+        const ok = emailRegex.test(email.value.trim());
+        email.setCustomValidity(ok ? '' : 'Invalid email');
+        email.classList.toggle('is-valid', ok);
+        email.classList.toggle('is-invalid', !ok);
+    }
+
+    email.addEventListener('blur', checkEmail);
+    email.addEventListener('input', () => {
+        if (email.classList.contains('is-invalid')) checkEmail();
+    });
 </script>
 
 

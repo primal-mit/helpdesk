@@ -106,6 +106,10 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
 
+    <?php if (count($tickets) == 0):  ?>
+        <p>No Tickets Found!</p>
+    <?php endif ?>
+
     </main>
     <!-- END MAIN CONTENT -->
 

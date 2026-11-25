@@ -109,9 +109,9 @@ if ($_SESSION['role'] !== 'Administrator') {
 
                     <div class="col-md-6">                                
                         <label class="form-label">
-                            Email Address
+                            Email Address <span class="text-danger fw-bolder ms-1">*</span>
                         </label>
-                        <input type="email" class="form-control" name="email" placeholder="Email Address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">                                
+                        <input type="text" class="form-control" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+\-]+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}">                                
                         <div class="invalid-feedback">Please enter a valid email address <br>(Eg: name@example.com).</div>
                     </div>
                 </div>
@@ -150,3 +150,20 @@ if ($_SESSION['role'] !== 'Administrator') {
     </script>
 
 <?php include('../partials/footer.php'); ?>
+
+<script>    
+   const email = document.getElementById('email');
+    const emailRegex = /^[a-zA-Z0-9._%+\-]+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$/;
+
+    function checkEmail() {
+        const ok = emailRegex.test(email.value.trim());
+        email.setCustomValidity(ok ? '' : 'Invalid email');
+        email.classList.toggle('is-valid', ok);
+        email.classList.toggle('is-invalid', !ok);
+    }
+
+    email.addEventListener('blur', checkEmail);
+    email.addEventListener('input', () => {
+        if (email.classList.contains('is-invalid')) checkEmail();
+    });
+</script>

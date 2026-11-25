@@ -50,7 +50,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-text bg-white text-muted"><i class="bi bi-shield-lock"></i></span>
-                        <input type="password" class="form-control border-start-0 ps-0" name="password" value="password123" placeholder="Enter your password" required>
+                        <input type="password" class="form-control border-start-0 ps-0" name="password" value="" placeholder="Enter your password" required>
                         <div class="valid-feedback">Looks good!</div>
                         <div class="invalid-feedback">Please enter the password.</div>
                     </div>

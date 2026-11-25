@@ -90,7 +90,7 @@ if ($_SESSION['role'] !== 'Agent') {
                             <td class="text-muted fw-medium" style="font-size: 0.9rem;"><?= date('M d, H:i', strtotime($ticket['created_at'])) ?></td>
                             <?php                            
                                 switch (strtolower($ticket['priority'])) {
-                                    case 'low': $priority_badge = 'secondary'; break;
+                                    case 'low': $priority_badge = 'success'; break;
                                     case 'medium': $priority_badge = 'warning'; break;
                                     case 'high': $priority_badge = 'danger'; break;
                                     default: $priority_badge = 'secondary'; break;
@@ -106,6 +106,10 @@ if ($_SESSION['role'] !== 'Agent') {
                 </table>
             </div>
         </div>
+
+        <?php if (count($tickets) == 0):  ?>
+            <p>No Tickets Found!</p>
+        <?php endif ?>
 
     </main>
     <!-- END MAIN CONTENT -->

@@ -73,12 +73,12 @@ class Ticket {
             $params[':requester_id'] = $filter_requester_id;
         }
 
-        if ($filter_agent_id != '') {
+    if ($filter_agent_id != '') {
             $query .= " AND t.agent_id = :agent_id";
             $params[':agent_id'] = $filter_agent_id;
         }
 
-        $query .= " ORDER BY t.created_at DESC";
+        $query .= " ORDER BY t.id DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
@@ -120,7 +120,7 @@ class Ticket {
           LEFT JOIN categories c ON t.category_id = c.id
           LEFT JOIN users requester ON t.requester_id = requester.id
           LEFT JOIN users agent ON t.agent_id = agent.id
-          ORDER BY t.created_at DESC
+          ORDER BY t.id DESC
           LIMIT 5";
                   
         $stmt = $this->conn->prepare($query);
