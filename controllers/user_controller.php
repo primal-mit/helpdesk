@@ -65,7 +65,6 @@ if (isset($_POST['create_user_submit'])) {
     }
 
 
-    //Code goes here to create a new user in the database
     $user = new User();
     $result = $user->create($first_name, $last_name, $username, $role, $status, $phone_number, $email);
 
@@ -140,7 +139,6 @@ if (isset($_POST['update_user_submit'])) {
         exit();
     }
 
-    // Code goes here to update the user in the database
     $user = new User();
     $result = $user->update($user_id, $first_name, $last_name, $username, $role, $status, $phone_number, $email);
 
@@ -194,7 +192,6 @@ if (isset($_POST['save_my_profile_submit'])) {
         exit();
     }
 
-    // Code goes here to update the user in the database
     $user = new User();
     $result = $user->saveMyProfile($user_id, $first_name, $last_name, $phone_number, $email);
 
@@ -210,10 +207,26 @@ if (isset($_POST['save_my_profile_submit'])) {
 
 
 
+if(isset($_POST['soft_delete_user_submit'])) {
+    $user_id = $_POST['user_id'];
+
+    $user = new User();
+    $result = $user->softDelete($user_id);
+
+    if ($result) {
+        $_SESSION['success'] = "User deleted successfully.";
+        header("Location: ../views/user/view-users.php");
+        exit();
+    } else {
+        $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";
+        header("Location: ../views/user/manage-users.php");
+        exit();
+    }
+}
+
 if(isset($_POST['delete_user_submit'])) {
     $user_id = $_POST['user_id'];
 
-    // Code goes here to delete the user from the database
     $user = new User();
     $result = $user->delete($user_id);
 
@@ -227,6 +240,24 @@ if(isset($_POST['delete_user_submit'])) {
         exit();
     }
 }
+
+if(isset($_POST['restore_user_submit'])) {
+    $user_id = $_POST['user_id'];
+
+    $user = new User();
+    $result = $user->restore($user_id);
+
+    if ($result) {
+        $_SESSION['success'] = "User restored successfully.";
+        header("Location: ../views/user/view-users.php");
+        exit();
+    } else {
+        $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";
+        header("Location: ../views/user/view-deleted-users.php");
+        exit();
+    }
+}
+
 
 if(isset($_POST['change_password_submit'])) {
     $user_id = $_SESSION['user_id'];

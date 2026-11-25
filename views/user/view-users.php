@@ -35,6 +35,11 @@ if ($_SESSION['role'] !== 'Administrator') {
                 <button class="btn btn-default fw-bold shadow-sm px-4 rounded-pill" style="border: 1px solid #8888" onclick="location.reload();">
                     <i class="bi bi-arrow-clockwise me-1"></i> Reload
                 </button> 
+                <a href="../user/view-deleted-users.php">
+                    <button class="btn btn-default fw-bold shadow-sm px-4 rounded-pill border-1"  style="border: 1px solid #8888">
+                        <i class="bi bi-person-fill-slash me-1"></i> View Deleted Users
+                    </button>
+                </a>
                 <a href="../user/create-user.php">
                 <button class="btn btn-success fw-bold shadow-sm px-4 rounded-pill">
                     <i class="bi bi-person-plus-fill me-1"></i> Add New User
@@ -120,7 +125,7 @@ if ($_SESSION['role'] !== 'Administrator') {
                             <td class="text-center pe-4">
                                 <a href="../user/view-user.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-light text-success border" title="View User"><i class="bi bi-eye"></i></a>
                                 <a href="../user/edit-user.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-light text-primary border me-1" title="Edit User"><i class="bi bi-pencil"></i></a>
-                                <a href="../user/delete-user.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-light text-danger border" title="Delete User"><i class="bi bi-trash"></i></a>
+                                <a href="../user/soft-delete-user.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-light text-danger border" title="Delete User"><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

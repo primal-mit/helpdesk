@@ -36,8 +36,8 @@ if (!$user) {
         <!-- Card Panel -->
         <div class="card card-panel"  style="max-width: 964px;">
             <div class="mb-3 text-center">
-                <h2 class="card-panel-title"><i class="bi bi-trash fs-3 text-warning"></i> Delete User</h2>
-                <p class="card-panel-subtitle">Please confirm the deletion of the user below.</p>
+                <h2 class="card-panel-title"><i class="bi bi-trash fs-3 text-warning"></i> Permenantly Delete User</h2>
+                <p class="card-panel-subtitle">Please confirm the permenantly deletion of the user below.</p>
             </div>
 
             <div class="alert alert-warning" role="alert">
@@ -60,7 +60,7 @@ if (!$user) {
                         <i class="bi bi-caret-left-fill me-1"></i> Go Back
                     </button>
                     <button type="submit" class="btn btn-danger bottom-btn me-3" name="delete_user_submit">
-                        <i class="bi bi-trash"></i> Delete User
+                        <i class="bi bi-trash"></i> Permenantly Delete User
                     </button>                          
                 </div>
                         

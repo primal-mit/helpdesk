@@ -10,7 +10,40 @@ class User {
     
     public function getUsers($filter_name, $filter_role, $filter_status) {
   
-        $query = "SELECT * FROM users WHERE 1=1";
+        $query = "SELECT * FROM users WHERE is_enabled = 1";
+
+        $params = [];
+
+        // Filter by name
+        if (!empty($filter_name)) {
+            $query .= " AND (first_name LIKE :name1 OR last_name LIKE :name2)";
+            $params[':name1'] = "%$filter_name%";
+            $params[':name2'] = "%$filter_name%";
+        }
+
+        // Filter by role
+        if (!empty($filter_role)) {
+            $query .= " AND role = :role";
+            $params[':role'] = $filter_role;
+        }
+
+        // Filter by status
+        if (!empty($filter_status)) {
+            $query .= " AND status = :status";
+            $params[':status'] = $filter_status;
+        }
+       
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($params);
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
+
+    public function getDeletedUsers($filter_name, $filter_role, $filter_status) {
+  
+        $query = "SELECT * FROM users WHERE is_enabled = 0";
 
         $params = [];
 
@@ -42,7 +75,7 @@ class User {
 
 
     public function getAgentUsers() {
-        $query = "SELECT * FROM users WHERE role = 'Agent'";
+        $query = "SELECT * FROM users WHERE role = 'Agent' AND  is_enabled = 1";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -51,7 +84,7 @@ class User {
     }
 
     public function getRequesterUsers() {
-        $query = "SELECT * FROM users WHERE role = 'Requester'";
+        $query = "SELECT * FROM users WHERE role = 'Requester' AND is_enabled = 1";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -173,8 +206,34 @@ class User {
         }
     }
 
+    public function softDelete($id) {
+        $query = "UPDATE users SET is_enabled = 0 WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";
+            return false;
+        }
+    }
+
     public function delete($id) {
         $query = "DELETE FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while deleting the user. Please try again.";
+            return false;
+        }
+    }
+
+    public function restore($id) {
+        $query = "UPDATE users SET is_enabled = 1 WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
 
