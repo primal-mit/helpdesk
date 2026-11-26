@@ -24,7 +24,7 @@ $categories = $category->getCategories();
                 <p class="card-panel-subtitle">Fill out all required fields so our team can assist you.</p>
             </div>
 
-            <form class="row g-3 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST">
+            <form class="row g-3 needs-validation" novalidate action="../../controllers/ticket_controller.php" method="POST" enctype="multipart/form-data">
                         
                 <!-- Ticket Information Section-->
                 <div class="d-flex align-items-center text-dark fw-bold mb-4" style="font-size: 1.1rem;">
@@ -92,7 +92,8 @@ $categories = $category->getCategories();
                         <label class="form-label">
                             <i class="bi bi-paperclip text-success me-2"></i> Attachment (Optional)
                         </label>
-                        <input type="file" class="form-control">
+                        <input type="file" class="form-control" name="attachment" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                        <small class="text-muted">Allowed formats: JPG, PNG, PDF, DOC, DOCX. Maximum size: 5 MB. </small>
                     </div>
                 </div> 
 

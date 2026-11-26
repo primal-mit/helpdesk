@@ -15,7 +15,45 @@ if (isset($_POST['create_ticket_submit'])) {
     $description = htmlspecialchars(strip_tags($_POST['description']));
     $priority_id = $_POST['priority_id'];
 
-    $new_ticket_id = $ticket->createTicket($requester_id, $category_id, $subject, $description, $priority_id);
+    //Attachment
+    $attachment = "";
+
+        if (isset($_FILES['attachment'])) 
+        {
+            $file = $_FILES['attachment'];
+
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+
+            $extension = strtolower(
+                pathinfo($file['name'], PATHINFO_EXTENSION)
+            );
+
+            if (!in_array($extension, $allowedExtensions, true)) {
+                $_SESSION['error'] = "Invalid file format.";
+                header("Location: ../views/ticket/create-ticket.php");  exit();
+            }
+
+            if ($file['size'] > 5 * 1024 * 1024) {
+                $_SESSION['error'] = "Maximum file size is 5 MB.";
+                header("Location: ../views/ticket/create-ticket.php");  exit();
+            }
+
+            $newFileName = bin2hex(random_bytes(16)) . '.' . $extension;
+
+            $uploadPath = __DIR__ . '../../uploads/tickets/';
+
+            if (move_uploaded_file(
+                $file['tmp_name'],
+                $uploadPath . $newFileName
+            )) {
+                $attachment =  $newFileName;                
+            } else {
+                $_SESSION['error'] = "File upload failed.";
+                header("Location: ../views/ticket/create-ticket.php");  exit();
+            }
+        }
+
+    $new_ticket_id = $ticket->createTicket($requester_id, $category_id, $subject, $description, $priority_id, $attachment);
 
     
     if ($new_ticket_id) {
@@ -113,6 +151,109 @@ if (isset($_POST['close_ticket_submit'])) {
         exit();
     }
 }
+
+
+//Add Attachment
+if (isset($_POST['add_attachment_submit'])) {
+
+    if(!isset($_POST['ticket_id'])){
+        $_SESSION['error'] = "No ticket id found.";
+        header("Location: ../views/ticket/view-tickets.php");
+        exit();
+    }
+
+    $ticket_id = $_POST['ticket_id'];  
+    
+    if (!isset($_FILES['attachment'])) 
+    {
+        $_SESSION['error'] = "No attachment found.";
+        header("Location: ../views/ticket/add-attachment.php?ticket_id=".$ticket_id);  exit();
+    }
+
+    $attachment = "";
+    
+    //Physicaly Upload Attachment   
+    $file = $_FILES['attachment'];
+
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+
+    $extension = strtolower(
+        pathinfo($file['name'], PATHINFO_EXTENSION)
+    );
+
+    if (!in_array($extension, $allowedExtensions, true)) {
+        $_SESSION['error'] = "Invalid file format.";
+        header("Location: ../views/ticket/add-attachment.php?ticket_id=".$ticket_id);  exit();
+    }
+
+    if ($file['size'] > 5 * 1024 * 1024) {
+        $_SESSION['error'] = "Maximum file size is 5 MB.";
+        header("Location: ../views/ticket/add-attachment.php?ticket_id=".$ticket_id);  exit();
+    }
+
+    $newFileName = bin2hex(random_bytes(16)) . '.' . $extension;
+
+    $uploadPath = __DIR__ . '../../uploads/tickets/';
+
+    if (move_uploaded_file(
+        $file['tmp_name'],
+        $uploadPath . $newFileName
+    )) {
+        $attachment =  $newFileName;                
+    } else {
+        $_SESSION['error'] = "File upload failed.";
+        header("Location: ../views/ticket/add-attachment.php?ticket_id=".$ticket_id);  exit();
+    }
+
+            
+    //Update to the DB
+    $result = $ticket->addAttachment($ticket_id, $attachment);
+
+    if ($result) {
+        $_SESSION['success'] = "Attachment upload successfully.";
+        header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
+        exit();
+    } else {
+        header("Location: ../views/ticket/add-attachment.php?ticket_id=".$ticket_id);  exit();
+        exit();
+    }
+    
+
+}
+
+
+//Remove Attachment
+if (isset($_POST['remove_attachment_submit'])) {
+
+    if(!isset($_POST['ticket_id'])){
+        $_SESSION['error'] = "No ticket id found.";
+        header("Location: ../views/ticket/view-tickets.php");
+        exit();
+    }
+
+    $ticket_id = $_POST['ticket_id'];    
+    $attachment = $_POST['attachment'];
+
+    // Delete physical file
+    $filePath = __DIR__ . '../../uploads/tickets/' . $attachment;
+
+    if (is_file($filePath)) {
+        unlink($filePath);
+    }
+
+    //Delete from DB
+    $result = $ticket->removeAttachment($ticket_id);
+
+    if ($result) {
+        $_SESSION['success'] = "Attachment removed successfully.";
+        header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
+        exit();
+    } else {
+        header("Location: ../views/ticket/view-ticket.php?id=". $ticket_id);
+        exit();
+    }
+}
+
 
 
 

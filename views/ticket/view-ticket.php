@@ -168,6 +168,46 @@ switch($ticket['status']){
                             <?= $ticket['description'] ?>
                         </p>
                     </div>
+
+
+                    <!-- Attachment -->
+                    <?php if (!empty($ticket['attachment'])): ?>                        
+                        
+                    <div class="text-muted fw-bold mt-4 mb-1" style="font-size: 0.9rem;">Attachment</div>
+                        
+                        <!-- Preview Attackment (If Image) -->
+                        <?php
+                        $extension = strtolower(pathinfo($ticket['attachment'], PATHINFO_EXTENSION));
+                        $imageExtensions = ['jpg', 'jpeg', 'png'];
+                        if (in_array($extension, $imageExtensions, true)):
+                        ?>
+                            <a href="../../uploads/tickets/<?= htmlspecialchars($ticket['attachment']) ?>">
+                                <img src="../../uploads/tickets/<?= htmlspecialchars($ticket['attachment']) ?>" alt="" height="120px" width="150px">                          
+                            </a>
+                        <?php endif; ?>
+
+                        <div>
+                            <a href="../../uploads/tickets/<?= htmlspecialchars($ticket['attachment']) ?>">                                             
+                                <i class="bi bi-paperclip"></i>View Attachment
+                            </a>
+
+                            <?php if ($ticket['requester_id'] == $_SESSION['user_id']): ?>
+                                | 
+                                <a class="text-danger" class="mr-2" href="../../views/ticket/remove-attachment.php?id=<?= $ticket['id'] ?>">                                             
+                                    Remove
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                      
+                    <?php else: ?>
+
+                        <?php if ($ticket['requester_id'] == $_SESSION['user_id']): ?>
+                            <a href="../../views/ticket/add-attachment.php?ticket_id=<?= $ticket['id'] ?>">Add Attachment</a>
+                        <?php endif; ?>
+
+                    <?php endif; ?>
+
+
                 </div>
 
                 <!-- Activities -->

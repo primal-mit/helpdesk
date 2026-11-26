@@ -12,9 +12,9 @@ class Ticket {
         $this->statusHistory = new StatusHistory();
     }
 
-    public function createTicket($requester_id, $category_id, $subject, $description, $priority) {
-        $query = "INSERT INTO tickets (requester_id, category_id, subject, description, priority, status) 
-                  VALUES (:requester_id, :category_id, :subject, :description, :priority, 'Open')";
+    public function createTicket($requester_id, $category_id, $subject, $description, $priority, $attachment) {
+        $query = "INSERT INTO tickets (requester_id, category_id, subject, description, priority, status, attachment) 
+                  VALUES (:requester_id, :category_id, :subject, :description, :priority, 'Open', :attachment)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -23,6 +23,7 @@ class Ticket {
         $stmt->bindParam(':subject', $subject);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':priority', $priority);
+        $stmt->bindParam(':attachment', $attachment);        
         
         if($stmt->execute()) {
             return $this->conn->lastInsertId(); // Returns ID for StatusHistory creation
@@ -258,6 +259,37 @@ class Ticket {
         }
     }
 
+
+    public function addAttachment($ticket_id, $attachment) {
+        $query = "UPDATE tickets SET attachment=:attachment WHERE id=:id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $ticket_id);
+        $stmt->bindParam(':attachment', $attachment);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while adding the attachment. Please try again.";
+            return false;
+        }
+    }
+
+
+    //Remove Attachment
+    public function removeAttachment($ticket_id) {
+        $query = "UPDATE tickets SET attachment='' WHERE id=:id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $ticket_id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while removing the attachment. Please try again.";
+            return false;
+        }
+    }
 
 }
 ?>
