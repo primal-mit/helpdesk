@@ -33,7 +33,7 @@ class Ticket {
 
 
     // Retrieves all tickets for the Admin/Agent dashboard
-    public function getTickets($filter_ticket_id, $filter_status, $filter_priority, $filter_category_id, $filter_requester_id, $filter_agent_id) {
+    public function getTickets($filter_ticket_id, $filter_status, $filter_priority, $filter_category_id, $filter_requester_id, $filter_agent_id, $limit, $offset) {
         $query = "SELECT 
             t.*,
             c.name AS category_name,
@@ -74,18 +74,25 @@ class Ticket {
             $params[':requester_id'] = $filter_requester_id;
         }
 
-    if ($filter_agent_id != '') {
+        if ($filter_agent_id != '') {
             $query .= " AND t.agent_id = :agent_id";
             $params[':agent_id'] = $filter_agent_id;
         }
 
         $query .= " ORDER BY t.id DESC";
+        $query .= " LIMIT :limit OFFSET :offset";
+
+        $params[':limit'] = $limit;
+        $params[':offset'] = $offset;
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
         
         return $stmt->fetchAll();
     }
+
+
+
 
     public function getTicket($ticket_id) {
         $query = "SELECT 
@@ -107,6 +114,51 @@ class Ticket {
         $stmt->execute();
         return $stmt->fetch();
     }
+
+
+    public function countTickets($filter_ticket_id, $filter_status, $filter_priority, $filter_category_id, $filter_requester_id, $filter_agent_id) {
+        $query = "SELECT COUNT(*) FROM tickets t WHERE 1 = 1 ";
+                  
+        $params = [];
+
+        if ($filter_ticket_id != '') {
+            $query .= " AND t.id = :ticket_id";
+            $params[':ticket_id'] = $filter_ticket_id;
+        }
+
+        if ($filter_status != '') {
+            $query .= " AND t.status = :status";
+            $params[':status'] = $filter_status;
+        }
+
+        if ($filter_priority != '') {
+            $query .= " AND t.priority = :priority";
+            $params[':priority'] = $filter_priority;
+        }
+
+        if ($filter_category_id != '') {
+            $query .= " AND t.category_id = :category_id";
+            $params[':category_id'] = $filter_category_id;
+        }
+
+        if ($filter_requester_id != '') {
+            $query .= " AND t.requester_id = :requester_id";
+            $params[':requester_id'] = $filter_requester_id;
+        }
+
+        if ($filter_agent_id != '') {
+            $query .= " AND t.agent_id = :agent_id";
+            $params[':agent_id'] = $filter_agent_id;
+        }
+
+        $query .= " ORDER BY t.id DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($params);
+        
+         return $stmt->fetchColumn();
+    }
+
 
 
      public function getRecentTickets() {
@@ -149,6 +201,7 @@ class Ticket {
         return $stmt->fetchAll();
     }
 
+
      public function getMyTicketsCount() {
         $query = "SELECT * FROM tickets WHERE requester_id = ".$_SESSION['user_id'];
                   
@@ -156,6 +209,7 @@ class Ticket {
         $stmt->execute();
         return $stmt->rowCount();
     }
+
 
     public function getCreatedTicketsCount($user_id) {
         $query = "SELECT * FROM tickets WHERE requester_id = ".$user_id;
@@ -165,6 +219,7 @@ class Ticket {
         return $stmt->rowCount();
     }
 
+
     public function getAssignedTicketsCount($user_id) {
         $query = "SELECT * FROM tickets WHERE agent_id = ".$user_id;
                   
@@ -172,6 +227,7 @@ class Ticket {
         $stmt->execute();
         return $stmt->rowCount();
     }
+
 
      public function getMyAssignedTickets() {
         $query = "SELECT 
