@@ -53,4 +53,25 @@ if (isset($_POST['delete_comment_submit'])) {
     }
 }
 
+
+if (isset($_POST['update_comment_submit'])) {
+
+    $comment_id = trim($_POST['comment_id']);
+    $comment_text = trim($_POST['comment_text']);
+    $ticket_id = trim($_POST['ticket_id']);
+    
+    $comment = new comment();
+    $result = $comment->update($comment_id, $comment_text);
+
+    if ($result) {
+        $_SESSION['success'] = "Comment updated successfully.";
+        header("Location: ../views/ticket/view-ticket.php?id=".$ticket_id);
+        exit();
+    } else {
+        $_SESSION['error'] = "An error occurred while deleting the comment. Please try again.";
+        header("Location: ../views/comment/edit-comment.php?id=".$comment_id);
+        exit();
+    }
+}
+
 ?>

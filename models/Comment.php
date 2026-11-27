@@ -33,6 +33,33 @@ class Comment {
         return $stmt->fetchAll();
     }
 
+    public function getCommentById($id) {
+        $query = "SELECT * FROM comments WHERE id = :id";
+                  
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function update($id, $comment_text) {
+       
+        // Update comment details in the database
+        $query = "UPDATE comments SET comment_text = :comment_text WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':comment_text', $comment_text);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $_SESSION['error'] = "An error occurred while updating the comment. Please try again.";
+            return false;
+        }
+    }
+
+
     public function deleteComment($id) {
         $query = "DELETE FROM comments WHERE id = :id";
                   
