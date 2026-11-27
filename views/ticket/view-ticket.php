@@ -9,6 +9,7 @@ require_once '../../models/Database.php';
 require_once '../../models/Ticket.php'; 
 require_once '../../models/User.php'; 
 require_once '../../models/StatusHistory.php'; 
+require_once '../../models/Comment.php'; 
 
 $ticket = new Ticket();
 $ticket_id = $_GET["id"];
@@ -43,14 +44,15 @@ switch($ticket['status']){
     case "Closed": $current_status_index = 4; break;
 }
 
+//Get Comments
+$comment = new Comment();
+$comments = $comment->getCommentsByTicket($ticket_id);
 ?>
 
 
 <?php include_once('../partials/header.php'); ?>
 
 <link rel="stylesheet" type="text/css" href="../../assets/css/timeline.css"/>
-
-
 
 
     <!-- MAIN CONTENT: TICKET DETAILS PAGE -->
@@ -207,7 +209,6 @@ switch($ticket['status']){
 
                     <?php endif; ?>
 
-
                 </div>
 
                 <!-- Activities -->
@@ -273,22 +274,98 @@ switch($ticket['status']){
                         
                     </div>
                 </div>
-                
-                <!-- Add Comment Form -->
-                <div class="card border-0 shadow-sm rounded-4 p-4">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label text-dark fw-bold mb-2">Add a Comment / Update</label>
-                            <textarea class="form-control bg-light border-0 shadow-none p-3" rows="3" placeholder="Type your update here to notify the requester..."></textarea>
+
+
+                <!-- Comments & Add Comment Card -->
+                <div class="card border-1 rounded-4 shadow-none mb-4">
+                    <div class="card-body p-4">
+
+                        <!-- Comments Section -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <h6 class="fw-bold mb-0 text-dark">
+                                <i class="bi bi-chat-left-text me-2 text-success"></i>Comments
+                                </h6>
+                            </div>
+
+                            <!-- Comments -->
+                            <?php foreach($comments as $comment): ?>
+
+                                <div class="d-flex flex-column gap-3">
+                                    
+                                    <div class="p-3 rounded-3 bg-light border">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div>
+                                                    <span class="fw-bold text-success small"><?= $comment['first_name'] ." ". $comment['last_name'] ?></span>
+                                                    <span class="text-muted fst-italic small ms-1">(<?= $comment['role'] ?>)</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="text-muted small">
+                                                    <i class="bi bi-clock me-1"></i><?= date('M d, h:i A', strtotime($comment['created_at'])) ?>
+                                                </span>
+                                                                                                                                                
+                                                <?php if($comment['user_id'] == $_SESSION['user_id']): ?>
+                                                    <div class="vr mx-1 text-muted opacity-25"></div>    
+
+                                                    <a href="../../views/comment/edit-comment.php?id=<?= $comment['id'] ?>">
+                                                    <button type="button" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none edit-comment-btn" title="Edit Comment">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </button>
+                                                    </a>
+                                                    
+                                                    <form action="../../controllers/comment_controller.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                                                        <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
+                                                        <input type="hidden" name="ticket_id" value="<?= $ticket_id ?>">
+                                                        <button type="submit" class="btn btn-sm btn-link text-danger p-0 text-decoration-none delete-comment-btn"  title="Delete Comment" name="delete_comment_submit">
+                                                        <i class="bi bi-trash"></i></button>
+                                                    </form>
+                                                <?php endif; ?>
+
+                                            </div>
+
+                                        </div>
+                                        <p class="mb-0 mt-0 text-dark small" style="line-height: 1.5; ">
+                                            <?= nl2br(htmlspecialchars(trim($comment['comment_text']))) ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+
+
+                             <?php if (count($comments) == 0):  ?>
+                                <div class="text-muted font-small"><small>No Comments</small></div>
+                            <?php endif ?>    
+
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-success fw-bold px-4 shadow-sm"><i class="bi bi-send me-2"></i> Post Comment</button>
-                        </div>
-                    </form>
+
+                        <hr class="my-4 text-muted opacity-25">
+
+                        <!-- dd a Comment / Update Section -->
+                        <form class="row g-3 needs-validation" novalidate method="POST" action="../../controllers/comment_controller.php">             
+                            <input type="hidden" name="ticket_id" value="<?= $ticket_id ?>">
+                            <div class="mb-3">
+                                <label for="ticketComment" class="form-label fw-bold small text-dark">
+                                Add a Comment / Update
+                                </label>
+                                <textarea 
+                                class="form-control bg-light rounded-3 p-3" name="comment_text"  rows="3" placeholder="Type your update here to notify the requester..."  required></textarea>
+
+                                <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please enter the comment</div>
+
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="sumbit" name="post_comment_submit" class="btn btn-success fw-bold px-4 shadow-sm"><i class="bi bi-send me-2"></i> Post Comment</button>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
 
             </div>
-
 
 
             <!-- Right Column: Update Controls -->
@@ -393,8 +470,6 @@ switch($ticket['status']){
             <?php endif ?>
 
             </div>
-
-
         </div>
     </main>
     <!-- END MAIN CONTENT -->
@@ -411,8 +486,6 @@ switch($ticket['status']){
     updateTimeline(<?= $current_status_index  ?>); 
 
 </script>
-
-
 
    
 <?php include('../partials/footer.php'); ?> 
